@@ -6,7 +6,7 @@
 </template>
 
 <script>
-
+//aidiconar na parte de baixo qual é nossa missão ( o objetivo do site )
 export default {
   data () {
     return {}

@@ -13,12 +13,38 @@ const api = {
     whoami(){
         return get('/api/whoami');
     },
-    add_todo(newtask){
-        return post('/api/add_todo', {new_task: newtask});
+    //add_todo(newtask){
+    //    return post('/api/add_todo', {new_task: newtask});
+    //},
+    //list_todos(){
+    //    return get('/api/list_todos');
+    //}
+    add_achado(novoachado){
+        return post('/api/add_achado',{novo_achado: novoachado});
     },
-    list_todos(){
+    add_perdido(novoperdido){
+        return post('/api/add_perdido',{novo_perdido: novoperdido});
+    },
+    /*get_achado(){ //passando um perdido
         return get('/api/list_todos');
-    }
+    }, 
+    get_perdido(){ //passando um achado
+        return get('/api/list_todos');
+    },
+    update_achado(){
+
+    }, 
+    update_perdido(){
+
+    },
+    remove_achado(){
+
+    },
+    remove_perdido(){
+
+    },*/
+
+
 }
 export default api;
 

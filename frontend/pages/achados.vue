@@ -10,7 +10,6 @@ import formAchado from '~/components/form-achado.vue'
 import Vuex from 'vuex'
 
 export default {
-  layout: 'complex',
   components: {
     formAchado
   },

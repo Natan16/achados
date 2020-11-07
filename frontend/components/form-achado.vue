@@ -67,7 +67,8 @@
   import AppApi from '~apijs'
   export default {
     data: () => ({
-      loading: false,
+      adding :false,
+      getting : false, 
       valid: true,
       name: '', 
       nameRules: [ 
@@ -92,25 +93,46 @@
         'Outro', 
       ],
       checkbox: false,
+      novoachado : null, //tem que ter todos os parametros do form
     }),
 
     methods: {
       validate () {
         this.$refs.form.validate() //precisa de cadastro?
-        //verifica no servidor se o dono desse documento já está lá
-        /*this.loading = true
-        AppApi.list_todos().then(response => {
+        //preenche novoachado -> não dá pra preencher enquanto preenche o form? vamos tentar 
+
+        //adiciona documento perdido no servidor
+        this.adding = true
+        AppApi.add_achado(this.novoachado).then(response => {
           const todos = response.data.todos
           this.items = todos
-          this.loading = false
-        })
-        //adiciona documento perdido no servidor
-        AppApi.add_todo(this.newtask).then(response => {
-          const todo = response.data
-          this.items.push(todo)
-          this.newtask = ''
           this.adding = false
-        })*/
+        })
+
+        this.getting = true 
+        //verifica no servidor se o dono desse documento já está lá
+        AppApi.get_perdido(this.novoachado).then(response => {
+          const documento = response.data.documento
+          //this.items.push(todo) //
+          //this.newtask = ''
+          this.getting = false
+        })
+
+        if(Boolean(documento)){
+          //redirecionar para página de documento encontrado
+        }
+        else {
+          //redirecionar para página de documento ainda não encontrado
+        }
+
+
+
+
+
+        //redireciona para página adequada -> nesse momento é hora de usar um _$variavel para
+        //saber para que tipo de pagina devemos redirecionar, dependendo sem usuário está logado ou não
+        //e se documento adicionado foi encontrado ou não -> passar na query pararmetros encontrados
+
          
         // window.open('mailto:natanvianat16@gmail.com?subject=documento_encontrado&body=Aqui está seu documento');
         //guardar os dados do formulário no banco
