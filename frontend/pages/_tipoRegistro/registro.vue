@@ -1,6 +1,6 @@
 <template>
   <v-layout justify-left>
-    <form-achado/>
+    <form-achado/> <!-- pode passar como parêmtro para o form genérico que ele é achado -->
   </v-layout>
 </template>
 

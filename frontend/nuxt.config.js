@@ -17,7 +17,9 @@ module.exports = {
   },
   css: [
     { src: '~/assets/css/main.styl', lang: 'styl' },
+    "@mdi/font/css/materialdesignicons.css"
   ],
+
   loading: { color: '#3B8070' },
   router: {
     middleware: ['fwdcookies', 'auth'],

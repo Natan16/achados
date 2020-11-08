@@ -4,8 +4,13 @@ const store = () => new Vuex.Store({
 
   state: {
     logged_user: undefined,
-    snack: {}
+    snack: {}, 
+    documento : undefined, //  
+    id_registro : undefined //id do último registro  c
+    //registro tem que ter uma tag ( finalizado ), o usuário vai marcar se foi finalizado
+
   },
+  //id
   mutations: {
     SET_LOGGED_USER(state, logged_user) {
       console.log('set logged user: '+JSON.stringify(logged_user))
@@ -13,7 +18,12 @@ const store = () => new Vuex.Store({
     },
     SET_SNACK_STATE(state, newstate) {
       state.snack = newstate
+    },
+
+    SET_DOCUMENTO(state , novoDocumento ){
+        state.documento = novoDocumento
     }
+
   },
   getters: {
     logged_user(state) {
@@ -21,7 +31,13 @@ const store = () => new Vuex.Store({
     },
     snack (state) {
       return state.snack
+    },
+
+    documento_ativo(state){
+      return state.documento
     }
+
+
   }
 })
 

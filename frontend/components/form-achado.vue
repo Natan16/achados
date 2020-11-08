@@ -1,75 +1,192 @@
+
 <template>
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-  >
-    <v-text-field
-      v-model="name"
-      :counter="10"
-      :rules="nameRules"
-      label="Nome"
-      required
-    ></v-text-field>
+  <v-container>
+  
+      <v-row
+        align="center"
+        justify="center"
+      >
+        <v-btn-toggle
+          v-model="toggle_registro"
+          rounded
+          mandatory
+        >
+          <v-btn>
+            Novo Registro
+          </v-btn>
+          <v-btn>
+            Consultar Registro
+          </v-btn>
+        </v-btn-toggle>
+      </v-row>
 
-    <v-text-field
-      v-model="email"
-      :rules="emailRules"
-      label="E-mail"
-      required
-    ></v-text-field>
 
-    <v-select
-      v-model="select"
-      :items="documentos"
-      :rules="[v => !!v || 'Item is required']"
-      label="Documento"
-      required
-    ></v-select>  
-
-    <v-text-field
-      v-model="outro"
-      label="Tipo"
-      v-if="select && select == 'Outro'"> 
-    </v-text-field>
-    
-
-    <v-checkbox
-      v-model="checkbox"
-      :rules="[v => !!v || 'Você deve concordar para continuar!']"
-      label="Você concorda em compartilhar seu email com quem alegue ter perdido o documento?"
-      required
-    ></v-checkbox>
-
-    <v-btn
-      :disabled="!valid"
-      color="success"
-      class="mr-4"
-      @click="validate"
+    <v-form 
+      v-if="toggle_registro == 0"
+      ref="form"
+      v-model="valid"
+      lazy-validation
     >
-      Validar
-    </v-btn>
+      <v-layout row wrap>
+        <v-text-field
+          v-model="name"
+          :counter="30"
+          :rules="nameRules"
+          label="Seu nome"
+          required
+        ></v-text-field>
+        <v-spacer>
+        </v-spacer>
+     </v-layout>
+      <v-layout row wrap>
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          label="Seu e-mail"
+          required
+        ></v-text-field>
+        <v-spacer>
+        </v-spacer>
+      </v-layout>
+      <v-divider></v-divider>
+      <v-layout row wrap>
+          <v-layout row wrap>
+          <v-select
+            v-model="select"
+            :items="documentos"
+            :rules="[v => !!v || 'Item is required']"
+            label="Documento"
+            required
+          ></v-select>  
+          </v-layout>
+          <v-spacer>
+          </v-spacer>
+          <v-text-field
+          v-model="numero"
+          label="Numero"
+          :rules="numeroRules"
+          required
+        ></v-text-field>
+ 
+      </v-layout>
+      <v-layout row wrap>
+      <v-text-field
+        v-model="outro"
+        label="Tipo"
+        v-if="select && select == 'Outro'" 
+        > <!-- --> 
+      
+      </v-text-field>  
+      <v-spacer>
+          </v-spacer>
 
-    <v-btn
-      color="error"
-      class="mr-4"
-      @click="reset"
+          <v-spacer>
+          </v-spacer>   
+      </v-layout>
+
+      <v-layout row wrap>
+      <v-text-field
+          v-model="nameProp"
+          :counter="30"
+          :rules="nameRules"
+          label="Nome do Proprietário"
+          required
+      ></v-text-field>
+      
+      <v-spacer>
+      </v-spacer>
+
+      </v-layout>
+
+
+      <v-checkbox
+        v-model="checkbox"
+        :rules="[v => !!v || 'Você deve concordar para continuar!']"
+        label="Você concorda em receber e-mails do Achados & Perdidos?"
+        required
+      ></v-checkbox>
+      <!-- <router-link :to="{name: 'encontrado', params:{encontrado: this.encontrado}}"></router-link> -->
+      <v-btn
+        :disabled="!valid"
+        color="success"
+        class="mr-4"
+        @click="validate"
+      >
+        Registrar
+      </v-btn>
+
+      <v-btn
+        color="error"
+        class="mr-4"
+        @click="reset"
+      >
+        Limpar
+      </v-btn>
+
+    </v-form>
+
+
+    <v-form 
+      v-if="toggle_registro == 1"
+      ref="form"
+      v-model="valid"
+      lazy-validation
     >
-      Limpar
-    </v-btn>
+      <v-layout row wrap>
+      <v-text-field
+          v-model="id_registro"
+          :rules="idRules"
+          label="ID"
+          required
+        ></v-text-field>
+         <v-btn
+          class="mx-2"
+          fab
+          dark
+          small
+          color="primary"
+        >
+          <v-icon dark>
+            mdi-magnify
+          </v-icon>
+        </v-btn>
+          <v-spacer>
+          </v-spacer>
+          <v-spacer>
+          </v-spacer>
+        </v-layout>
+    </v-form>
 
-  </v-form>
+  </v-container>
 </template>
 <!-- é necessário ter algo relativo à localização -->
 <!-- se a opção selecionada for Outros, é necessário abrir um campo a mais -->
 <!-- se o item foi encontrado, fechar requisição -->
 <script>
+  /*const routes = [
+    {
+      name: "foo",
+      path: "/foo",
+      component: Foo
+    }, 
+    {
+      name: "bar",
+      path: "/bar",
+      component: Bar
+    }
+  ];
+
+  const router = new VueRouter({
+    routes
+  });*/
+
   import AppApi from '~apijs'
   export default {
     data: () => ({
+      toggle_registro: undefined,
       adding :false,
       getting : false, 
-      valid: true,
+      valid: false,
       name: '', 
       nameRules: [ 
         v => !!v || 'Nome é necessário',
@@ -92,40 +209,61 @@
         'Certidão de Nascimento',
         'Outro', 
       ],
+      outro : '' ,
+      outroRules : [ 
+        v => !!v  || "Tipo do documento é necessário" 
+      ],
+      //cada tipo de documento tem suas próprias regras
+      //talvez um objeto que consista no tipo de documento e nas regras para o seu número
+      //ou um mapa que mapeie tipo em conjunto de regras , vai ser bom pois aqui aprendo Regex em javascript 
+      numero : '',
+      numeroRules : [
+        v => !!v || "Numero do documento é necessário"//por enquanto está aceitando qualquer coisa, a regra que se aplica certamente depende de qual documento é selecionado
+      ],
+      nameProp: '',
       checkbox: false,
+
       novoachado : null, //tem que ter todos os parametros do form
+
+      id_registro : '',
+      idRules : [
+        v => !!v || 'ID é necessário',
+      ]
     }),
 
     methods: {
+
+      
       validate () {
         this.$refs.form.validate() //precisa de cadastro?
         //preenche novoachado -> não dá pra preencher enquanto preenche o form? vamos tentar 
-
+        //TODO : falta isso aqui!!!!!!!
+        this.novoachado = {
+          name : this.name , 
+          email : this.email , 
+          select : this.select , 
+          numero : this.numero ,
+        }
         //adiciona documento perdido no servidor
         this.adding = true
         AppApi.add_achado(this.novoachado).then(response => {
-          const todos = response.data.todos
-          this.items = todos
+          //const todos = response.data.todos
+          //this.items = todos
           this.adding = false
         })
 
         this.getting = true 
+        var documento = null
         //verifica no servidor se o dono desse documento já está lá
         AppApi.get_perdido(this.novoachado).then(response => {
-          const documento = response.data.documento
+          documento = response.data.documento
           //this.items.push(todo) //
           //this.newtask = ''
           this.getting = false
         })
-
-        if(Boolean(documento)){
-          //redirecionar para página de documento encontrado
-        }
-        else {
-          //redirecionar para página de documento ainda não encontrado
-        }
-
-
+        this.$router.push({ name: 'encontrado-respostaachado', params: { encontrado: Boolean(documento) } });
+        //form-achado deveria compartilhar as informações de documento com resposta_achado 
+        //documento deveria estar em uma store
 
 
 
@@ -145,9 +283,9 @@
       reset () {
         this.$refs.form.reset()
       },
-      resetValidation () {
-        this.$refs.form.resetValidation()
-      },
+      //resetValidation () {
+      //  this.$refs.form.resetValidation()
+      //},
     },
   }
 </script>
