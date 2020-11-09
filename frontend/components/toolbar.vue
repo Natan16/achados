@@ -2,7 +2,7 @@
   <v-toolbar color="blue-grey" dark fixed app clipped-right>
     <!-- <v-toolbar-side-icon @click.stop="state.drawer = !state.drawer"></v-toolbar-side-icon> -->
     <v-btn :to="{ name: 'index'}" flat dark ripple class="ma-0 ml-5"   >Achados & Perdidos</v-btn><v-spacer></v-spacer>
-    <v-btn v-if="!logged_user" flat dark ripple class="ma-0 ml-5"  @click="open_login_dialog($event)">Login</v-btn>
+    <!-- <v-btn v-if="!logged_user" flat dark ripple class="ma-0 ml-5"  @click="open_login_dialog($event)">Login</v-btn> -->
     <v-menu v-if="logged_user" offset-y>
       <v-btn icon slot="activator" class="ma-0 ml-5">
         <v-avatar size="36px">

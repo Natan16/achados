@@ -5,8 +5,16 @@
     <v-btn color="success" :to="{name: 'tipoRegistro-registro', params:{tipoRegistro:'achado'}}">Eu achei um documento</v-btn>
   	
   </v-layout>
-  <p>Mais de X mil documentos são peridos por ano. Muitas vezes não são encontrados porque ... . Mesmo quando encontrado
-  tem que ir nos Correios e pagar uma taxa de Y reais. Essa plataforma tem como missão facilitar esse processo blau</p>
+  <p></p>
+  <div style="position: relative; width: 600px; height: 800px;">    
+
+    <div style="position: absolute; bottom: 5px; ">
+     <h2>Nossa missão</h2> 
+    Mais de X mil documentos são peridos por ano. Muitas vezes não são encontrados porque ... . Mesmo quando encontrado
+  tem que ir nos Correios e pagar uma taxa de Y reais. Essa plataforma tem como missão facilitar esse processo blau
+    </div>
+   </div>
+
 </div>
 
 </template>
