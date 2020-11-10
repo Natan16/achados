@@ -1,7 +1,7 @@
 <template>
   	<v-container>
 		<!-- <v-layout justify-left> -->
-		 <v-btn-toggle
+		<!--  <v-btn-toggle
 	        v-model="toggle_registro"
 	        rounded
 	        mandatory
@@ -12,13 +12,13 @@
 	        <v-btn>
 	          Consultar Registro
 	        </v-btn>
-        	</v-btn-toggle>
+        	</v-btn-toggle> -->
         <!-- </v-layout> -->
-	    <form-novo-registro  v-if="toggle_registro == 0" >
+        <!-- não precisa que logged user esteja como parâmetro -->
+ 	    <form-novo-registro> <!--é diferente dependendo se tem usuário logado ou não-->
 		</form-novo-registro> <!-- pode passar como parêmtro para o form genérico que ele é achado -->
-		<form-consulta-registro  v-if="toggle_registro == 1" tipoRegistro="tipoRegistro">
-		</form-consulta-registro> <!-- pode passar como parêmtro para o form genérico que ele é achado -->
-		
+
+
 	</v-container>
 </template>
 

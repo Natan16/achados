@@ -1,21 +1,27 @@
 <template>
   <div>
+  <v-container v-if="!encontrado">
+    <div>
 
-    <h1 >
-      O documento que você encontrou foi registrado com sucesso.
-    </h1>
-    <br> 
-    <h1>
-      Por equanto, não existem correspondências.
-    </h1>
-    <br>
-    <h1>
-       Entraremos em contato caso o documento seja encotrado.
-    </h1>
-    <br>
-    <h1>
-       Obrigado!
-    </h1>
+      <h1 >
+        O documento que você encontrou foi registrado com sucesso.
+      </h1>
+      <br> 
+      <h1>
+        Por equanto, não existem correspondências.
+      </h1>
+      <br>
+      <h1>
+         Entraremos em contato caso o documento seja encotrado.
+      </h1>
+      <br>
+      <h1>
+         Obrigado!
+      </h1>
+    </div>
+  </v-container>
+  <v-container v-if="encontrado">
+  </v-container>
   </div>
 </template>
 <script>
@@ -33,6 +39,14 @@ export default {
   components: {
     //viewuser
   },
+  computed: {
+    registro_atual(){
+      return this.$store.getters.registro_atual
+    },
+    registros_correspondentes(){
+      return this.$store.getters.registros_correspondentes
+    }
+  } , 
   asyncData (context) {
     const encontrado = context.params.encontrado
     console.log("entrou aqui")
@@ -53,7 +67,6 @@ export default {
     //dar a possibilidade de reenviar o código 
   },
   data () {
-    
     return {
     }
   }

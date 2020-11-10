@@ -8,7 +8,6 @@ const store = () => new Vuex.Store({
     documento : undefined, //  
     id_registro : undefined //id do último registro  c
     //registro tem que ter uma tag ( finalizado ), o usuário vai marcar se foi finalizado
-
   },
   //id
   mutations: {
@@ -20,9 +19,6 @@ const store = () => new Vuex.Store({
       state.snack = newstate
     },
 
-    SET_DOCUMENTO(state , novoDocumento ){
-        state.documento = novoDocumento
-    }
 
   },
   getters: {
@@ -32,11 +28,6 @@ const store = () => new Vuex.Store({
     snack (state) {
       return state.snack
     },
-
-    documento_ativo(state){
-      return state.documento
-    }
-
 
   }
 })

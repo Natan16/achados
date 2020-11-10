@@ -1,7 +1,8 @@
 
 <template>
   <v-container>
-
+    <v-progress-linear :indeterminate="true" v-if="loading"></v-progress-linear> <!-- colocar alguns desses caras enquanto
+    esperar a consulta no banco de dados -->
     <v-form 
       ref="form"
       lazy-validation
@@ -31,7 +32,11 @@
           </v-spacer>
         </v-layout>
     </v-form>
-    esqueci meu id
+    <v-btn
+      class="blue--text darken-1"
+    >
+    Esqueceu o ID? <!-- redirecionar para uma página de recuperação de ID -->
+    </v-btn>
       <v-layout row wrap>
         <v-text-field
           v-model="email"
@@ -98,6 +103,7 @@
 <!-- se o item foi encontrado, fechar requisição -->
 <script>
   //se o ID é diferente para cada registro, não faz sentido pedir somente o email 
+
   import AppApi from '~apijs'
   export default {
     props: ['tipoRegistro'],
@@ -105,7 +111,10 @@
       getting : false, 
       dialog : false,
       email : '',
-      emailRules : '',
+      emailRules: [
+        v => !!v || 'E-mail é necessário',
+        v => /.+@.+\..+/.test(v) || 'E-mail deve ser válido',
+      ],
       id_registro : '',
       idRules : [
         v => !!v || 'ID é necessário',
@@ -145,10 +154,11 @@
           //mudar variavel que vai mostrar que nenhuma solicitação foi encontrada com esse id
         }
         else {
-          //mudar variavel que vai mostrar solicitação
-          //é possível colocar html aqui dentro? 
+          //redirecionar para uma página usando id como parâmetro ( passar tudo de solicitante e documento também ?)
           //talvez o certo fosse redirecionar para nova página ( talvez a mesma depois de ser criado um registro)
-
+          //colocar os parametros numa store
+          this.$store.commit('registro/SET_REGISTRO' , ) //construir o objeto
+          //redirecionar para página que vai mostrar o registro e oferecer as opções
         }
         //v-for desse novo component ( solicitante e documento  passados como prop)
         //se retornou alguma coisa, então mostrar na tela ( dados mock )

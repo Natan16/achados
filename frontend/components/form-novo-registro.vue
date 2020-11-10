@@ -6,28 +6,30 @@
       v-model="valid"
       lazy-validation
     >
-      <v-layout row wrap>
-        <v-text-field
-          v-model="name"
-          :counter="30"
-          :rules="nameRules"
-          label="Seu nome"
-          required
-        ></v-text-field>
-        <v-spacer>
-        </v-spacer>
-     </v-layout>
-      <v-layout row wrap>
-        <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="Seu e-mail"
-          required
-        ></v-text-field>
-        <v-spacer>
-        </v-spacer>
-      </v-layout>
-      <v-divider></v-divider>
+    <!-- <v-container v-if="logged_user" > -->
+        <v-layout row wrap>
+          <v-text-field
+            v-model="name"
+            :counter="30"
+            :rules="nameRules"
+            label="Seu nome"
+            required
+          ></v-text-field>
+          <v-spacer>
+          </v-spacer>
+       </v-layout>
+        <v-layout row wrap>
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="Seu e-mail"
+            required
+          ></v-text-field>
+          <v-spacer>
+          </v-spacer>
+        </v-layout>
+        <v-divider></v-divider>
+      <!-- </v-container> -->
       <v-layout row wrap>
           <v-layout row wrap>
           <v-select
@@ -128,6 +130,12 @@
 
   import AppApi from '~apijs'
   export default {
+    computed: Object.assign(
+      {},
+      Vuex.mapGetters([
+        'logged_user'
+      ])
+    ),
     props: ['toggle_registro'],
     data: () => ({
       adding :false,
@@ -184,12 +192,14 @@
         this.$refs.form.validate() //precisa de cadastro?
         //preenche novoachado -> não dá pra preencher enquanto preenche o form? vamos tentar 
         //TODO : falta isso aqui!!!!!!!
+        //caso de estar na aba achado
         this.novoachado = {
           name : this.name , 
           email : this.email , 
           select : this.select , 
           numero : this.numero ,
         }
+
         //adiciona documento perdido no servidor
         this.adding = true
         AppApi.add_achado(this.novoachado).then(response => {
@@ -199,14 +209,22 @@
         })
 
         this.getting = true 
+        
+        var id = null 
+        var perdedor = null 
         var documento = null
+
         //verifica no servidor se o dono desse documento já está lá
         AppApi.get_perdido(this.novoachado).then(response => {
-          documento = response.data.documento
-          //this.items.push(todo) //
-          //this.newtask = ''
+          //pode inclusive voltar uma lista de registros de perdidos ou de achados
+          id = response.data.id
+          perdedor = response.data.perdedor
+          documento = response.data.documento //volta alguma coisa se esse documento já foi dado como
+          //perdido
           this.getting = false
         })
+        //se foi encontrado, tem que dar um jeito de passar o registro encontrado
+        //pode ser pela propria store
         this.$router.push({ name: 'encontrado-respostaachado', params: { encontrado: Boolean(documento) } });
         //form-achado deveria compartilhar as informações de documento com resposta_achado 
         //documento deveria estar em uma store

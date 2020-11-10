@@ -1,8 +1,17 @@
 <template>
+  <!-- um dropdown para consulta de registros, caso usuário esteja logado -->
   <v-toolbar color="blue-grey" dark fixed app clipped-right>
     <!-- <v-toolbar-side-icon @click.stop="state.drawer = !state.drawer"></v-toolbar-side-icon> -->
     <v-btn :to="{ name: 'index'}" flat dark ripple class="ma-0 ml-5"   >Achados & Perdidos</v-btn><v-spacer></v-spacer>
-    <!-- <v-btn v-if="!logged_user" flat dark ripple class="ma-0 ml-5"  @click="open_login_dialog($event)">Login</v-btn> -->
+    <v-btn v-if="logged_user" flat dark ripple class="ma-0 ml-5" > <!-- se o usuário não está logado vai abrir o form de login , se ele está, vai abrir a lista de registros-->
+      Consultar Registros
+    </v-btn>
+    <v-btn  v-if="!logged_user" flat dark ripple class="ma-0 ml-5" @click="open_login_dialog($event)"> <!-- se o usuário não está logado vai abrir o form de login , se ele está, vai abrir a lista de registros-->
+      Consultar Registros
+    </v-btn>
+
+  
+    <v-btn v-if="!logged_user" flat dark ripple class="ma-0 ml-5"  @click="open_login_dialog($event)">Login</v-btn>
     <v-menu v-if="logged_user" offset-y>
       <v-btn icon slot="activator" class="ma-0 ml-5">
         <v-avatar size="36px">
@@ -25,14 +34,9 @@
         </v-list>
         <v-divider></v-divider>
         <v-list>
-          <v-list-tile @click="switchMode()">
-            <v-list-tile-content>
-              <v-list-tile-title>Staff mode</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
           <v-list-tile @click="logout()">
             <v-list-tile-content>
-              <v-list-tile-title>Log out</v-list-tile-title>
+              <v-list-tile-title>Sair</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
