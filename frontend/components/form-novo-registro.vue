@@ -182,13 +182,15 @@
         nameProp: '',
         checkbox: false,
 
-        novoachado : null, //tem que ter todos os parametros do form
-
       }
     },
 
     methods: {
+      checkCorrespondencia(registro){
+        const tipoOposto = this.tipoRegistro == 'achado' ? 'perdido' : 'achado'
+        return registro.status == 0 && registro.tipoRegistro == tipoOposto  
 
+      }
       
       validate () {
         this.$refs.form.validate() //precisa de cadastro?
@@ -239,9 +241,13 @@
 
         var registros = []
       //procurar pelos registros que envolvem esse documento
-        AppApi.getRegistroByDocumentoId(this.nome , this.email , [id_registro] , false).then(response => {
+        AppApi.getRegistroByDocumentoId(id_documento).then(response => {
             registros = response.data
         })
+        //filtrar somente registros de interesse 
+        registros.filter(checkCorrespondencia)
+
+        //pegar só os registros que tem 
         //se algum desses registros for do tipo oposto, e estiver em aberto, redirecionar para pagina de ACHOU -> tem que passar como parametro ( ou via Store ) todos os registros do tipo oposto  
 
         //caso contrário, redirecionar para página de NÃO ACHOU
@@ -249,8 +255,10 @@
         //fazer toda a lógica do redirecionamento
         //pedir para o backend mandar email
         //settar correspondencias e formulario
-        this.$store.commit('SET_FORMULARIO', formulario);
-        this.$store.commit('SET_CORRESPONDENCIAS', []);
+        this.$store_correspondencias.commit('SET_FORMULARIO', formulario);
+        this.$store_correspondencias.commit('SET_CORRESPONDENCIAS', registros);
+        //em vez de setar correspondências, poderia fazer várias chamadas de Api em respostas.vue para 
+        //recuparar as correspondências essa página faria simplesmente os adds, faz sentido?
         this.$router.push({ name: 'tipoRegistro-encontrado-resposta', params:{tipoRegistro:this.tipoRegistro , encontrado  } });
 
         
