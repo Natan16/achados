@@ -25,8 +25,9 @@ export default {
     return {}
   }
 }
+//baixar dependências pelo 3g!
+//psycopg deu erro
 </script>
 
 <style>
 </style>
-

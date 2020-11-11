@@ -8,7 +8,8 @@
     >
     <!-- <v-container v-if="logged_user" > -->
         <v-layout row wrap>
-          <v-text-field
+          <v-text-field 
+            :disabled="this.autenticated"
             v-model="name"
             :counter="30"
             :rules="nameRules"
@@ -20,6 +21,7 @@
        </v-layout>
         <v-layout row wrap>
           <v-text-field
+            :disabled="this.autenticated"
             v-model="email"
             :rules="emailRules"
             label="Seu e-mail"
@@ -35,7 +37,7 @@
           <v-select
             v-model="select"
             :items="documentos"
-            :rules="[v => !!v || 'Item is required']"
+            :rules="[v => !!v || 'Documento é necessário']"
             label="Documento"
             required
           ></v-select>  
@@ -111,24 +113,10 @@
 <!-- se a opção selecionada for Outros, é necessário abrir um campo a mais -->
 <!-- se o item foi encontrado, fechar requisição -->
 <script>
-  /*const routes = [
-    {
-      name: "foo",
-      path: "/foo",
-      component: Foo
-    }, 
-    {
-      name: "bar",
-      path: "/bar",
-      component: Bar
-    }
-  ];
 
-  const router = new VueRouter({
-    routes
-  });*/
-
+  import Vuex from 'vuex'
   import AppApi from '~apijs'
+
   export default {
     computed: Object.assign(
       {},
@@ -136,54 +124,68 @@
         'logged_user'
       ])
     ),
-    props: ['toggle_registro'],
-    data: () => ({
-      adding :false,
-      getting : false, 
-      valid: false,
-      name: '', 
-      nameRules: [ 
-        v => !!v || 'Nome é necessário',
-        v => (v && v.length <= 30) || 'Nome deve conter menos do que 30 caracteres',
-      ],
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail é necessário',
-        v => /.+@.+\..+/.test(v) || 'E-mail deve ser válido',
-      ],
-      select: null,
-      documentos: [
-        'RG',
-        'CPF',
-        'CNH',
-        'RA',
-        'Passaporte',
-        'Carteira de Trabalho',
-        'Carteira de Estudante',
-        'Certidão de Nascimento',
-        'Outro', 
-      ],
-      outro : '' ,
-      outroRules : [ 
-        v => !!v  || "Tipo do documento é necessário" 
-      ],
-      //cada tipo de documento tem suas próprias regras
-      //talvez um objeto que consista no tipo de documento e nas regras para o seu número
-      //ou um mapa que mapeie tipo em conjunto de regras , vai ser bom pois aqui aprendo Regex em javascript 
-      numero : '',
-      numeroRules : [
-        v => !!v || "Numero do documento é necessário"//por enquanto está aceitando qualquer coisa, a regra que se aplica certamente depende de qual documento é selecionado
-      ],
-      nameProp: '',
-      checkbox: false,
+    
+    /*asyncData() {
+      return AppApi.whoami().then(response => { 
+        var user = response.data.user
+        console.log(response)
+        if( response.data.autenticated ) 
+          return {name: user.name, email :user.email , autenticated : true }
+        return {name:'' , email :'' , autenticated : false}
 
-      novoachado : null, //tem que ter todos os parametros do form
+      })
+  
+    },*/
 
-      id_registro : '',
-      idRules : [
-        v => !!v || 'ID é necessário',
-      ]
-    }),
+   
+    //form precisa capturar login
+    data () {
+      return {
+        name:'',
+        email:'',
+        tipoRegistro: this.$route.params.tipoRegistro,
+        autenticated:false,
+        adding :false,
+        getting : false,
+        valid: false, 
+        nameRules: [ 
+          v => !!v || 'Nome é necessário',
+          v => (v && v.length <= 30) || 'Nome deve conter menos do que 30 caracteres',
+        ],
+        emailRules: [
+          v => !!v || 'E-mail é necessário',
+          v => /.+@.+\..+/.test(v) || 'E-mail deve ser válido',
+        ],
+        select: null,
+        documentos: [
+          'RG',
+          'CPF',
+          'CNH',
+          'RA',
+          'Passaporte',
+          'Carteira de Trabalho',
+          'Carteira de Estudante',
+          'Certidão de Nascimento',
+          'Outro', 
+        ],
+        outro : '' ,
+        outroRules : [ 
+          v => !!v  || "Tipo do documento é necessário" 
+        ],
+        //cada tipo de documento tem suas próprias regras
+        //talvez um objeto que consista no tipo de documento e nas regras para o seu número
+        //ou um mapa que mapeie tipo em conjunto de regras , vai ser bom pois aqui aprendo Regex em javascript 
+        numero : '',
+        numeroRules : [
+          v => !!v || "Numero do documento é necessário"//por enquanto está aceitando qualquer coisa, a regra que se aplica certamente depende de qual documento é selecionado
+        ],
+        nameProp: '',
+        checkbox: false,
+
+        novoachado : null, //tem que ter todos os parametros do form
+
+      }
+    },
 
     methods: {
 
@@ -199,42 +201,56 @@
           select : this.select , 
           numero : this.numero ,
         }
-
-        //adiciona documento perdido no servidor
-        this.adding = true
-        AppApi.add_achado(this.novoachado).then(response => {
-          //const todos = response.data.todos
-          //this.items = todos
-          this.adding = false
-        })
-
-        this.getting = true 
+        //é uma lista de usuários
+        //adiciona registro de documento perdido no servidor
+        //se já não tiver usuário logado ou usuário com o email correspondente não existir
+        //AppApi.get_usuario_by_email(this.novoachado).then(response => {
+          
+        //})
+        //get do usuário retornou vazio e não tem logged_user
+  
         
-        var id = null 
-        var perdedor = null 
-        var documento = null
-
-        //verifica no servidor se o dono desse documento já está lá
-        AppApi.get_perdido(this.novoachado).then(response => {
-          //pode inclusive voltar uma lista de registros de perdidos ou de achados
-          id = response.data.id
-          perdedor = response.data.perdedor
-          documento = response.data.documento //volta alguma coisa se esse documento já foi dado como
-          //perdido
-          this.getting = false
+        //se documento já não estiver no banco
+        AppApi.add_documento(this.select , this.numero , this.nameProp  , this.outro).then(response => {
+         
         })
-        //se foi encontrado, tem que dar um jeito de passar o registro encontrado
-        //pode ser pela propria store
-        this.$router.push({ name: 'encontrado-respostaachado', params: { encontrado: Boolean(documento) } });
-        //form-achado deveria compartilhar as informações de documento com resposta_achado 
-        //documento deveria estar em uma store
+        var id_usuario = 1
+        var id_documento = 1
+        //registro só vai ser adicionado se já não tiver um registro em aberto
+        //do mesmo usuário relativo ao mesmo documento  
+        //dataehora que o registro foi adicionado pode ser cuidado pelo backend
+        //pode criar um enum de possíveis status
+        //EM_ABERTO , RESOLVIDO etc
+        const status = { //outra coisa que vai ser bom ficar numa Store
+          EM_ABERTO: 0,
+          RESOLVIDO: 1,
+        }
+        AppApi.add_registro(id_usuario , id_documento, this.tipoRegistro , status.EM_ABERTO ).then(response => {
+        
+        })
+        
+        var id_registro = 1
+        //se o usuário for conhecido, tem que obrigar ele a fazer login
+        AppApi.add_usuario(this.nome , this.email , [id_registro] , false).then(response => {
+             
+        })
 
+        var registros = []
+      //procurar pelos registros que envolvem esse documento
+        AppApi.getRegistroByDocumentoId(this.nome , this.email , [id_registro] , false).then(response => {
+            //vai retornar uma lista 
+        })
+        //se algum desses registros for do tipo oposto, e estiver em aberto, redirecionar para pagina de ACHOU -> tem que passar como parametro ( ou via Store ) todos os registros do tipo oposto  
 
+        //caso contrário, redirecionar para página de NÃO ACHOU
 
-        //redireciona para página adequada -> nesse momento é hora de usar um _$variavel para
-        //saber para que tipo de pagina devemos redirecionar, dependendo sem usuário está logado ou não
-        //e se documento adicionado foi encontrado ou não -> passar na query pararmetros encontrados
+      //fazer toda a lógica do redirecionamento
+      //pedir para o backend mandar email
+        
+        this.$router.push({ name: 'tipoRegistro-encontrado-resposta', params:{tipoRegistro:this.tipoRegistro , encontrado  } });
 
+        
+        
          
         // window.open('mailto:natanvianat16@gmail.com?subject=documento_encontrado&body=Aqui está seu documento');
         //guardar os dados do formulário no banco

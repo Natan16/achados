@@ -15,25 +15,21 @@
         	</v-btn-toggle> -->
         <!-- </v-layout> -->
         <!-- não precisa que logged user esteja como parâmetro -->
- 	    <form-novo-registro> <!--é diferente dependendo se tem usuário logado ou não-->
-		</form-novo-registro> <!-- pode passar como parêmtro para o form genérico que ele é achado -->
-
+		<form-novo-registro> 
+		</form-novo-registro> 
 
 	</v-container>
 </template>
 
 <script>
 
-import formNovoRegistro from '~/components/form-novo-registro.vue'
-import formConsultaRegistro from '~/components/form-consulta-registro.vue'
 import Vuex from 'vuex'
-//os formulários para achados e perdidos são iguais, o que muda é o parâmetro que depende da escolha no Menu
+import formNovoRegistro from '~/components/form-novo-registro.vue'
+
 export default {
   
-  components: {
-  	
+  components: {	
     formNovoRegistro,
-    formConsultaRegistro,
   },
 
   asyncData (context) {

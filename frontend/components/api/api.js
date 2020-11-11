@@ -13,36 +13,9 @@ const api = {
     whoami(){
         return get('/api/whoami');
     },
-    //add_todo(newtask){
-    //    return post('/api/add_todo', {new_task: newtask});
-    //},
-    //list_todos(){
-    //    return get('/api/list_todos');
-    //}
-    add_achado(novoachado){
-        return post('/api/add_achado',{novo_achado: novoachado});
-    },
-    add_perdido(novoperdido){
-        return post('/api/add_perdido',{novo_perdido: novoperdido});
-    },
-    /*get_achado(){ //passando um perdido
-        return get('/api/list_todos');
-    }, 
-    get_perdido(){ //passando um achado
-        return get('/api/list_todos');
-    },
-    update_achado(){
-
-    }, 
-    update_perdido(){
-
-    },
-    remove_achado(){
-
-    },
-    remove_perdido(){
-
-    },*/
+    add_usuario(name , email ,lista_registros ,possui_login){
+        return post('/api/add_usuario', {name:name , email:email , lista_registros:lista_registros , possui_login:possui_login});
+    }
 
 
 }

@@ -16,20 +16,21 @@ function mockasync (data) {
 }
 
 const api = {
-    login(username, password){
+    login(email, password){
         if(password){
             logged_user = {
-                username: username,
+                username: 'zuckbrau',
                 first_name: 'Mark',
                 last_name: 'Zuckerberg',
                 email: 'zuck@facebook.com',
                 notifications_enabled: true,
                 permissions:{
-                    ADMIN: username == 'admin',
-                    STAFF: username == 'admin',
+                    ADMIN: 'zuckbrau' == 'admin',
+                    STAFF: 'zuckbrau' == 'admin',
                 }
             };
         }
+        console.log(logged_user)
         return mockasync(logged_user);
     },
     logout(){
@@ -69,26 +70,17 @@ const api = {
             documento: null //caso não seja encontrado
         })
     },
-    get_perdido(achado){//passando um achado
-        if ( (achado.numero == 585291 && achado.tipo == 'RG')|| achado.nome == 'Natan Viana' ){//primeiro nome e iniciais dos outros nomes iguais
-            return mockasync({
-                documento: documentos_perdidos[0]
-            })    
-        }
-        return mockasync({
-            documento: null //caso não seja encontrado
-        })
+  
+    add_usuario(nome , email , lista_registros , possui_login){
+        return mockasync({})
     },
-    add_achado(novoachado){
-        return mockasync({
-            documento: null //caso não seja encontrado
-        }) 
+    add_registro(){
+        return mockasync({})
     },
-    add_perdido(novoperdido){
-       return mockasync({
-            documento: null //caso não seja encontrado
-        })  
-    },
+    add_document(){
+        return mockasync({})
+    }, 
+  
 };
 
 export default api;
