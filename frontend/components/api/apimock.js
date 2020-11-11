@@ -1,10 +1,6 @@
 import Vue from 'vue'
 
 var logged_user = null;
-var documentos_achados = [{id:1, nome : 'Natan Viana' , tipo: 'RG' , numero : 585291 ,email:'natanvianat16@gmail.com' , encontrado : false } , 
-        {id:2, nome : 'Mariana Inara' , tipo: 'PIU' , numero : 47213084 , encontrado : true ,email:'marianapiupiupiu@gmail.com' }]
-var documentos_perdidos = [{id:1, nome : 'Natan Viana' , tipo: 'RG' , numero : 585291 ,email:'natanvianat16@gmail.com' , encontrado : false } , 
-        {id:2, nome : 'Mariana Inara' , tipo: 'PIU' , numero : 47213084 , encontrado : true ,email:'marianapiupiupiu@gmail.com' }]
 //table documentos 
 //table registro_achado
 //table registro_perdido ?
@@ -56,19 +52,9 @@ const api = {
         });
     },*/
     //no caso de ter perdido em um estabelecimento, já vai saber onde que é pra buscar
-    get_achado(perdido){//passando um perdido
-        //inserir aqui uma lista de achados achados : [{} , {} , ... ]
-        
-        //pode ser que mais de um item corresponda à pesquisa, nesse caso, retornar uma lista de 
-        //documentos
-        if ( (perdido.numero == 585291 && perdido.tipo == 'RG')|| perdido.nome == 'Natan Viana' ){//primeiro nome e iniciais dos outros nomes iguais
-            return mockasync({
-                documento: documentos_achados[0]
-            })    
-        }
-        return mockasync({
-            documento: null //caso não seja encontrado
-        })
+    //recebe um registro e retorna os registros correspondentes
+    get_correspondencias(registro){
+       return mockasync({})
     },
   
     add_usuario(nome , email , lista_registros , possui_login){
@@ -77,7 +63,7 @@ const api = {
     add_registro(){
         return mockasync({})
     },
-    add_document(){
+    add_documento( tipo , numero , nome_proprietario , outro){
         return mockasync({})
     }, 
   

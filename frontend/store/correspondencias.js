@@ -3,8 +3,8 @@ import Vuex from 'vuex'
 const store_correspondencias = () => new Vuex.Store({
  
   state: {
-    formulario = {},//formulario vazio?
-    correspondencias = [], 
+    formulario : {},
+    correspondencias : [], 
   },
   //id
   mutations: {

@@ -10,9 +10,8 @@
 
     <div style="position: absolute; bottom: 5px; ">
      <h2>Nossa missão</h2> 
-    Mais de X mil documentos são peridos por ano. Muitas vezes não são encontrados porque ... . Mesmo quando encontrado
-    tem que ir nos Correios e pagar uma taxa de Y reais. Essa plataforma tem como missão facilitar esse processo blau
-    </div>
+    Dezenas de milhares de documentos são perdidos todo ano no Brasil. Muitas vezes, a pessoa que achou não se dá ao trabalho de levar o documento até o setor de achados e perdidos do orgão público resposável. E, ainda assim, a pessoa que perdeu tem que pagar alguma taxa. Essa plataforma tem como objetivo facilitar esse processo oferencendo um serviço GRATUITO para conectar quem perdeu a quem achou um documento.  
+    </div> 
    </div>
 
 </div>

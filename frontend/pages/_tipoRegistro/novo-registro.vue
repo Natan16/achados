@@ -1,7 +1,7 @@
 <template>
-  	<v-container>
-  		<!-- <hearder-novo-registro/>  criar um hearder pelo menos escrito: Registro de Documento Perdido-->
-		<form-novo-registro/> 
+  <v-container>
+  	<hearder-novo-registro :tipoRegistro="tipoRegistro" />
+  <form-novo-registro/> 
 	</v-container>
 </template>
 
@@ -9,11 +9,12 @@
 
 import Vuex from 'vuex'
 import formNovoRegistro from '~/components/form-novo-registro.vue'
+import hearderNovoRegistro from '~/components/header-novo-registro.vue' 
 
 export default {
   
   components: {	
-    formNovoRegistro,
+    formNovoRegistro, hearderNovoRegistro
   },
 
   asyncData (context) {
@@ -22,7 +23,7 @@ export default {
 
   },
   data () {
-    return {toggle_registro:0,}
+    return {}
   }
 }
 </script>

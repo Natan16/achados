@@ -190,7 +190,7 @@
         const tipoOposto = this.tipoRegistro == 'achado' ? 'perdido' : 'achado'
         return registro.status == 0 && registro.tipoRegistro == tipoOposto  
 
-      }
+      },
       
       validate () {
         this.$refs.form.validate() //precisa de cadastro?
@@ -246,15 +246,11 @@
         })
         //filtrar somente registros de interesse 
         registros.filter(checkCorrespondencia)
-
-        //pegar só os registros que tem 
-        //se algum desses registros for do tipo oposto, e estiver em aberto, redirecionar para pagina de ACHOU -> tem que passar como parametro ( ou via Store ) todos os registros do tipo oposto  
-
-        //caso contrário, redirecionar para página de NÃO ACHOU
+        //ordenar registros do mais recente para o mais antigo 
+        //olhar para o timeago
+        registros = registros.sort((a,b) => (a.datetime > b.datetime ? -1 : 1))  
+        const encontrado = registros.length > 0
         
-        //fazer toda a lógica do redirecionamento
-        //pedir para o backend mandar email
-        //settar correspondencias e formulario
         this.$store_correspondencias.commit('SET_FORMULARIO', formulario);
         this.$store_correspondencias.commit('SET_CORRESPONDENCIAS', registros);
         //em vez de setar correspondências, poderia fazer várias chamadas de Api em respostas.vue para 

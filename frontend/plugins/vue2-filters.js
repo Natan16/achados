@@ -7,3 +7,7 @@ Vue.filter('json', value => {
   if (!value) return
   return JSON.stringify(value, null, 2)
 })
+
+/*Vue.filter('timeago' , value => {
+	return 
+}) util pra mostrar pro usuario*/
