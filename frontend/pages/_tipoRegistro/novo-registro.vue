@@ -1,23 +1,7 @@
 <template>
   	<v-container>
-		<!-- <v-layout justify-left> -->
-		<!--  <v-btn-toggle
-	        v-model="toggle_registro"
-	        rounded
-	        mandatory
-	         >
-	        <v-btn>
-	          Novo Registro
-	        </v-btn>
-	        <v-btn>
-	          Consultar Registro
-	        </v-btn>
-        	</v-btn-toggle> -->
-        <!-- </v-layout> -->
-        <!-- não precisa que logged user esteja como parâmetro -->
-		<form-novo-registro> 
-		</form-novo-registro> 
-
+  		<!-- <hearder-novo-registro/>  criar um hearder pelo menos escrito: Registro de Documento Perdido-->
+		<form-novo-registro/> 
 	</v-container>
 </template>
 

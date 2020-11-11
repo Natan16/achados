@@ -2,7 +2,6 @@
   <div>
   <v-container v-if="!encontrado">
     <div>
-
       <h1 >
         O documento que você encontrou foi registrado com sucesso.
       </h1>
@@ -12,7 +11,7 @@
       </h1>
       <br>
       <h1>
-         Entraremos em contato caso o documento seja encotrado.
+         Entraremos em contato pelo seu email caso o documento seja encotrado.
       </h1>
       <br>
       <h1>
@@ -22,6 +21,7 @@
   </v-container>
   <v-container v-if="encontrado">
     <!-- listar  --> 
+    
   </v-container>
   </div>
 </template>
@@ -37,25 +37,20 @@
 import AppApi from '~apijs'
 
 export default {
-  props:['docs'], /*emails de todos os que acharam ( ou que perderam ), com data etc*/
-  //passar através de uma Store!
   components: {
-
     //viewuser
   },
   computed: {
-    registro_atual(){
-      return this.$store.getters.registro_atual
+    formulario(){
+      return this.$store_correspondencias.getters.formulario
     },
-    registros_correspondentes(){
-      return this.$store.getters.registros_correspondentes
+    correspondencias(){
+      return this.$store_correspondencias.getters.correspondencias
     }
   } , 
   asyncData () {
-    
-    //o data vai fazer uma 
-    const encontrado = context.params.encontrado
-    return {encontrado ,} 
+    //tem que pegar do store a resposta dos registros ( não precisava nem saber do encontrado )
+    return {} 
     //serve para fazer várias promessas
     /*return Promise.all([
       AppApi.get_user_details(username),

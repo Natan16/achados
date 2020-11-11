@@ -195,11 +195,13 @@
         //preenche novoachado -> não dá pra preencher enquanto preenche o form? vamos tentar 
         //TODO : falta isso aqui!!!!!!!
         //caso de estar na aba achado
-        this.novoachado = {
+        const formulario = {
           name : this.name , 
           email : this.email , 
           select : this.select , 
           numero : this.numero ,
+          outro : this.outro,
+          nameProp : this.nameProp,
         }
         //é uma lista de usuários
         //adiciona registro de documento perdido no servidor
@@ -238,15 +240,17 @@
         var registros = []
       //procurar pelos registros que envolvem esse documento
         AppApi.getRegistroByDocumentoId(this.nome , this.email , [id_registro] , false).then(response => {
-            //vai retornar uma lista 
+            registros = response.data
         })
         //se algum desses registros for do tipo oposto, e estiver em aberto, redirecionar para pagina de ACHOU -> tem que passar como parametro ( ou via Store ) todos os registros do tipo oposto  
 
         //caso contrário, redirecionar para página de NÃO ACHOU
-
-      //fazer toda a lógica do redirecionamento
-      //pedir para o backend mandar email
         
+        //fazer toda a lógica do redirecionamento
+        //pedir para o backend mandar email
+        //settar correspondencias e formulario
+        this.$store.commit('SET_FORMULARIO', formulario);
+        this.$store.commit('SET_CORRESPONDENCIAS', []);
         this.$router.push({ name: 'tipoRegistro-encontrado-resposta', params:{tipoRegistro:this.tipoRegistro , encontrado  } });
 
         
