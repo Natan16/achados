@@ -1,7 +1,7 @@
 <template>
   <v-container>
   	<hearder-novo-registro :tipoRegistro="tipoRegistro" />
-  <form-novo-registro/> 
+    <form-novo-registro/> 
 	</v-container>
 </template>
 

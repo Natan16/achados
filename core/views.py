@@ -8,6 +8,16 @@ from core.service import log_svc, todo_svc
 from django.views.decorators.csrf import csrf_exempt
 
 
+from django.core.mail import send_mail
+
+send_mail(
+    'Subject here',
+    'Here is the message.',
+    'from@example.com',
+    ['to@example.com'],
+    fail_silently=False,
+)
+
 def dapau(request):
     raise Exception('break on purpose')
 

@@ -27,7 +27,10 @@ DEBUG = os.getenv('DJANGO_DEBUG', '1') == '1'
 
 ALLOWED_HOSTS = list({'localhost'} | set(os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')))
 
-
+#EMAIL_HOST = 'localhost'
+#EMAIL_PORT = 
+#EMAIL_HOST_USER = 
+#EMAIL_HOST_PASSWORD =
 # Application definition
 
 INSTALLED_APPS = [
