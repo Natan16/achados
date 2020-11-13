@@ -7,9 +7,9 @@ from commons.django_views_utils import ajax_login_required
 from core.service import log_svc, todo_svc
 from django.views.decorators.csrf import csrf_exempt
 
-
-from django.core.mail import send_mail
 '''
+from django.core.mail import send_mail
+
 TODO: encapsular esse método
 send_mail(
     'Subject here',
@@ -54,16 +54,16 @@ def whoami(request):
     return JsonResponse(i_am)
 
 
-def adiciona_registro(request){
-   JsonResponse({})     
-}
+def adiciona_registro(request):
+   JsonResponse({})
 
-def lista_correspondencias(response){
+def lista_correspondencias(request):
+    JsonResponse({})
 
-    JsonResponse()
-}
-
-
+#seria post, pois executa uma ação ou get, pois não altera o banco de dados?
+def envia_email(request):
+    JsonResponse({})
+    
 def _user2dict(user):
     d = {
         'id': user.id,
