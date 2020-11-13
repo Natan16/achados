@@ -9,15 +9,16 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 from django.core.mail import send_mail
-
+'''
+TODO: encapsular esse método
 send_mail(
     'Subject here',
     'Here is the message.',
     'from@example.com',
     ['to@example.com'],
     fail_silently=False,
-)
-
+    )
+'''
 def dapau(request):
     raise Exception('break on purpose')
 
@@ -53,16 +54,14 @@ def whoami(request):
     return JsonResponse(i_am)
 
 
-@ajax_login_required
-def add_todo(request):
-    todo = todo_svc.add_todo(request.POST['new_task'])
-    return JsonResponse(todo)
+def adiciona_registro(request){
+   JsonResponse({})     
+}
 
+def lista_correspondencias(response){
 
-@ajax_login_required
-def list_todos(request):
-    todos = todo_svc.list_todos()
-    return JsonResponse({'todos': todos})
+    JsonResponse()
+}
 
 
 def _user2dict(user):
