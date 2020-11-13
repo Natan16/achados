@@ -13,9 +13,18 @@ const api = {
     whoami(){
         return get('/api/whoami');
     },
-    add_usuario(name , email ,lista_registros ,possui_login){
-        return post('/api/add_usuario', {name:name , email:email , lista_registros:lista_registros , possui_login:possui_login});
-    }
+    adiciona_regsitro(solicitante , documento , tipo_reg){
+        return post('api/adiciona_registro', {solicitante: solicitante, documento: documento, tipo_reg:tipo_reg});
+    },
+    lista_correspondencias(documento , tipo_reg){ 
+        return get('api/lista_correspondencias', {documento: documento , tipo_reg: tipo_reg});
+    },
+    //PARA FAZER A APLICAÇÃO COMPLETA
+    //cria_usuario
+    //lista_registros
+    //envia_email
+    //resolve_registro
+    //reabre_registro etc
 
 
 }

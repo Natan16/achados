@@ -39,33 +39,28 @@ const api = {
             user: logged_user,
         } : {authenticated: false});
     },
-    /*
-    add_todo(newtask){
-        return mockasync({description: newtask, done: false});
+   
+    adiciona_registro(solicitante , documento , tipo){
+        return mockasync({});
     },
-    list_todos(){ //na verdade, vem de uma consulta sql
+    lista_correspondencias(documento , tipo){ 
         return mockasync({
-            todos: [
-                {description: 'Do the laundry', done: true},
-                {description: 'Walk the dog', done: false}
+            correspondencias: [
+                {usuario : {nome: 'Natan Viana' , email:'natanvianat16@gmail.com'} , data:"10/11/12" , tipoRegistro:"achado"},
+                {usuario : {nome: 'Mariana Inara' , email:'marianainaradacosta@gmail.com'} , data:"10/12/12", tipoRegistro:"achado"}
             ]
         });
-    },*/
-    //no caso de ter perdido em um estabelecimento, já vai saber onde que é pra buscar
-    //recebe um registro e retorna os registros correspondentes
-    get_correspondencias(registro){
-       return mockasync({})
     },
-  
-    add_usuario(nome , email , lista_registros , possui_login){
-        return mockasync({})
-    },
-    add_registro(){
-        return mockasync({})
-    },
-    add_documento( tipo , numero , nome_proprietario , outro){
-        return mockasync({})
-    }, 
+
+    
+    //envia_email(email , texto){
+    //    return mockasync({})  
+    //},
+    //lista_registros(usuario){
+    //  return mockasync({});  
+    //}
+    //resolve_registro()//pelo id ?  
+
   
 };
 

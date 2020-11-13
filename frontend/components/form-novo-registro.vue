@@ -10,8 +10,7 @@
         <v-layout row wrap>
           <v-text-field 
             :disabled="this.autenticated"
-            v-model="name"
-            :counter="30"
+            v-model="nome"
             :rules="nameRules"
             label="Seu nome"
             required
@@ -69,8 +68,7 @@
 
       <v-layout row wrap>
       <v-text-field
-          v-model="nameProp"
-          :counter="30"
+          v-model="nomeProp"
           :rules="nameRules"
           label="Nome do Proprietário"
           required
@@ -113,17 +111,12 @@
 <!-- se a opção selecionada for Outros, é necessário abrir um campo a mais -->
 <!-- se o item foi encontrado, fechar requisição -->
 <script>
-
+  //TODO : fazer melhor validação do formulário
   import Vuex from 'vuex'
   import AppApi from '~apijs'
 
   export default {
-    computed: Object.assign(
-      {},
-      Vuex.mapGetters([
-        'logged_user'
-      ])
-    ),
+    computed: {},
     
     /*asyncData() {
       return AppApi.whoami().then(response => { 
@@ -141,7 +134,7 @@
     //form precisa capturar login
     data () {
       return {
-        name:'',
+        nome:'',
         email:'',
         tipoRegistro: this.$route.params.tipoRegistro,
         autenticated:false,
@@ -150,7 +143,6 @@
         valid: false, 
         nameRules: [ 
           v => !!v || 'Nome é necessário',
-          v => (v && v.length <= 30) || 'Nome deve conter menos do que 30 caracteres',
         ],
         emailRules: [
           v => !!v || 'E-mail é necessário',
@@ -166,6 +158,8 @@
           'Carteira de Trabalho',
           'Carteira de Estudante',
           'Certidão de Nascimento',
+          'Cartao de credito',
+          'Cartao de debito',
           'Outro', 
         ],
         outro : '' ,
@@ -179,7 +173,7 @@
         numeroRules : [
           v => !!v || "Numero do documento é necessário"//por enquanto está aceitando qualquer coisa, a regra que se aplica certamente depende de qual documento é selecionado
         ],
-        nameProp: '',
+        nomeProp: '',
         checkbox: false,
 
       }
@@ -197,65 +191,36 @@
         //preenche novoachado -> não dá pra preencher enquanto preenche o form? vamos tentar 
         //TODO : falta isso aqui!!!!!!!
         //caso de estar na aba achado
-        const formulario = {
-          name : this.name , 
-          email : this.email , 
-          select : this.select , 
-          numero : this.numero ,
-          outro : this.outro,
-          nameProp : this.nameProp,
-        }
-        //é uma lista de usuários
-        //adiciona registro de documento perdido no servidor
-        //se já não tiver usuário logado ou usuário com o email correspondente não existir
-        //AppApi.get_usuario_by_email(this.novoachado).then(response => {
-          
-        //})
-        //get do usuário retornou vazio e não tem logged_user
-  
         
-        //se documento já não estiver no banco
-        AppApi.add_documento(this.select , this.numero , this.nameProp  , this.outro).then(response => {
-         
-        })
-        var id_usuario = 1
-        var id_documento = 1
-        //registro só vai ser adicionado se já não tiver um registro em aberto
-        //do mesmo usuário relativo ao mesmo documento  
-        //dataehora que o registro foi adicionado pode ser cuidado pelo backend
-        //pode criar um enum de possíveis status
-        //EM_ABERTO , RESOLVIDO etc
-        const status = { //outra coisa que vai ser bom ficar numa Store
-          EM_ABERTO: 0,
-          RESOLVIDO: 1,
-        }
-        AppApi.add_registro(id_usuario , id_documento, this.tipoRegistro , status.EM_ABERTO ).then(response => {
-        
-        })
-        
-        var id_registro = 1
-        //se o usuário for conhecido, tem que obrigar ele a fazer login
-        AppApi.add_usuario(this.nome , this.email , [id_registro] , false).then(response => {
-             
-        })
 
-        var registros = []
-      //procurar pelos registros que envolvem esse documento
-        AppApi.getRegistroByDocumentoId(id_documento).then(response => {
-            registros = response.data
-        })
-        //filtrar somente registros de interesse 
-        registros.filter(checkCorrespondencia)
-        //ordenar registros do mais recente para o mais antigo 
-        //olhar para o timeago
-        registros = registros.sort((a,b) => (a.datetime > b.datetime ? -1 : 1))  
-        const encontrado = registros.length > 0
+        const solicitante = {
+          username : this.nome , 
+          email : this.email,
+        }
+
+        const documento = {
+           tipo : this.select , 
+           numero : this.numero ,
+           outro : this.outro,
+           nomeProp : this.nomeProp,  
+        }
+        console.log(documento)
         
-        this.$store_correspondencias.commit('SET_FORMULARIO', formulario);
-        this.$store_correspondencias.commit('SET_CORRESPONDENCIAS', registros);
+        //EM_ABERTO , RESOLVIDO etc
+        //const status = { //outra coisa que vai ser bom ficar numa Store???
+        //  EM_ABERTO: 0,
+        //  RESOLVIDO: 1,
+        //} //pra isso vai adicionar à api função resolver, que resolve uma solicitação baseada no id dela
+        AppApi.adiciona_registro(solicitante, documento , this.tipoRegistro).then(response => {
+        
+        })
+        
+        this.$store.commit('SET_SOLICITANTE', solicitante);
+        this.$store.commit('SET_DOCUMENTO', documento);
+        
         //em vez de setar correspondências, poderia fazer várias chamadas de Api em respostas.vue para 
         //recuparar as correspondências essa página faria simplesmente os adds, faz sentido?
-        this.$router.push({ name: 'tipoRegistro-encontrado-resposta', params:{tipoRegistro:this.tipoRegistro , encontrado  } });
+        this.$router.push({ name: 'tipoRegistro-resposta', params:{tipoRegistro:this.tipoRegistro} });
 
         
         
