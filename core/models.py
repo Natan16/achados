@@ -21,26 +21,22 @@ class ActivityLog(models.Model):
 #ver se user já não tem um campo equivalente à possui_login
 
 class Documento(models.Model):
-    tipo = models.TextField()
-    outro = models.BooleanField()
+    tipo = models.TextField()  #tipos fixos ( seria melhor usar um enum ? já que o banco de dados não precisa saber o tipo)
+    outro = models.TextField()
     numero =  models.TextField() #nao necessarimente eh um numero
     nomeProprietario = models.TextField()
+    #proprietario = models.ForeignKey(User, null=True, empty=True )
+    class Meta:
+        unique_together = ('tipo', 'numero', 'outro')
 
-    #proprietario = models.ForeignKey(User, null=True )
-
-    #pode ter uma lista de registros do qual faz parte
-    #tem que definir quem vai ser a chave primaria desses caras
-
-
+#registros são únicos
 class Registro(models.Model):
-    usuario = models.ForeignKey(User , null=True , blank=True)
+    usuario = models.ForeignKey(User)
     #se o registro for de documento perdido, pode até relacionar usuário à documento
     documento = models.ForeignKey(Documento)
     tipoRegistro = models.TextField()
     criado_em = models.DateTimeField('criado em', auto_now_add=True)
-    status = models.DecimalField()
-
-
+    status = models.SmallIntegerField(default=0)
 
 
 class Todo(models.Model):
