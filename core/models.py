@@ -22,12 +22,22 @@ class ActivityLog(models.Model):
 
 class Documento(models.Model):
     tipo = models.TextField()  #tipos fixos ( seria melhor usar um enum ? já que o banco de dados não precisa saber o tipo)
-    outro = models.TextField()
-    numero =  models.TextField() #nao necessarimente eh um numero
+    outro = models.BooleanField()
+    numero = models.TextField() #nao necessarimente eh um numero
     nomeProprietario = models.TextField()
     #proprietario = models.ForeignKey(User, null=True, empty=True )
     class Meta:
         unique_together = ('tipo', 'numero', 'outro')
+
+    def to_dict_json(self):
+        return {
+            'id': self.id,
+            'tipo': self.tipo,
+            'outro': self.outro,
+            'numero': self.numero,
+            'nomeProprietario': self.nomeProprietario
+        }
+
 
 #registros são únicos
 class Registro(models.Model):
@@ -37,7 +47,20 @@ class Registro(models.Model):
     tipoRegistro = models.TextField()
     criado_em = models.DateTimeField('criado em', auto_now_add=True)
     status = models.SmallIntegerField(default=0)
-
+    #só precisa retornar o registro
+    def to_dict_json(self):
+        return {
+            'id': self.id,
+            'nome_solicitante': self.usuario.first_name,
+            'sobrenome_solicitante': self.usuario.last_name,
+            'email_solicitante': self.usuario.email,
+            'tipo_doc': self.documento.tipo,
+            'outro_doc': self.documento.outro,
+            'numero_doc': self.documento.numero,
+            'nomeProprietario_doc': self.documento.nomeProprietario,
+            'criado_em':self.criado_em,
+            'status':self.status
+        }
 
 class Todo(models.Model):
     description = models.CharField(max_length=512)

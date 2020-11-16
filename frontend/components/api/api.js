@@ -20,20 +20,20 @@ const api = {
         let doc_numero = documento.numero
         let doc_outro = documento.outro
         let doc_nome_prop = documento.nomeProp
-        return post('api/adiciona_registro', {solicitante_nome: solicitante_nome, solicitante_email: solicitante_email,
+        return post('/api/adiciona_registro', {solicitante_nome: solicitante_nome, solicitante_email: solicitante_email,
          doc_tipo:doc_tipo , doc_numero:doc_numero , doc_outro:doc_outro , doc_nome_prop:doc_nome_prop, tipo_reg:tipo_reg});
     },
     lista_correspondencias(documento, tipo_reg){
         let doc_tipo = documento.tipo
         let doc_numero = documento.numero
         let doc_outro = documento.outro
-        let doc_nome_prop = documento.nomeProp
+        let doc_nome = documento.nomeProp
         //e se bater o nome do usuário apenas ? -também tem que retornar, mas com alguma flag avisando que não é uma
         //correspondência perfeita
-        return get('api/lista_correspondencias', {doc_tipo:doc_tipo , doc_numero:doc_numero , doc_outro:doc_outro , doc_nome_prop:doc_nome_prop, tipo_reg:tipo_reg});
+        return get('/api/lista_correspondencias', {doc_tipo:doc_tipo , doc_numero:doc_numero , doc_outro:doc_outro , doc_nome:doc_nome, tipo_reg:tipo_reg});
     },
     //PARA FAZER A APLICAÇÃO COMPLETA
-    //cria_usuario
+    //cadastra_usuario
     //lista_registros
     //envia_email
     //resolve_registro

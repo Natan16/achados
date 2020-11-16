@@ -44,21 +44,17 @@ def whoami(request):
     return JsonResponse(i_am)
 
 def adiciona_registro(request):
-   usuario, documento, registro = achados_svc.adiciona_registro(request.solicitante_nome ,request.solicitande_email,request.doc_tipo,
-   request.doc_numero,request.doc_outro,request.doc_nome_prop, request.tipo_reg)
-   JsonResponse({})
+    registro = achados_svc.adiciona_registro(request.POST.get('solicitante_nome'),request.POST.get('solicitante_email'),
+                                             request.POST.get('doc_tipo'),request.POST.get('doc_numero'),
+                                             request.POST.get('doc_outro'),request.POST.get('doc_nome'),
+                                             request.POST.get('tipo_reg'))
+    #os métodos post tem que retornar uma resposta HTTP?
+    return JsonResponse(registro)
 
 def lista_correspondencias(request):
-    request
-    #loggeduser = request.user if request.user.is_authenticated() else None
-    #username = request.GET.get('username')
-    #correspondencias = achados_svc.list_correspondencias(loggeduser, username)
+    correspondencias = achados_svc.lista_correspondencias(request.GET['doc_tipo'], request.GET['doc_numero'], request.GET['doc_outro'],
+                                       request.GET['doc_nome_prop'], request.GET['tipo_reg'] )
 
-    achados_svc.lista_correspondencias()
-    correspondencias = [{
-            'nome': '',
-            'email': '',
-        }]
     return JsonResponse(correspondencias, safe=False)
 
 #seria post, pois executa uma ação ou get, pois não altera o banco de dados?
