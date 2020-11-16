@@ -52,8 +52,9 @@ def adiciona_registro(request):
     return JsonResponse(registro)
 
 def lista_correspondencias(request):
-    correspondencias = achados_svc.lista_correspondencias(request.GET['doc_tipo'], request.GET['doc_numero'], request.GET['doc_outro'],
-                                       request.GET['doc_nome_prop'], request.GET['tipo_reg'] )
+    correspondencias = achados_svc.lista_correspondencias(request.GET.get('doc_tipo'), request.GET.get('doc_numero'),
+                                                          request.GET.get('doc_outro'),request.GET.get('doc_nome_prop'),
+                                                          request.GET.get('tipo_reg'))
 
     return JsonResponse(correspondencias, safe=False)
 

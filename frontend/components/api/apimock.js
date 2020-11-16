@@ -44,12 +44,12 @@ const api = {
         return mockasync({});
     },
     lista_correspondencias(documento , tipo){ 
-        return mockasync({
-            correspondencias: [
+        return mockasync(
+            [
                 {usuario : {nome: 'Natan Viana' , email:'natanvianat16@gmail.com'} , data:"10/11/12" , tipoRegistro:"achado"},
                 {usuario : {nome: 'Mariana Inara' , email:'marianainaradacosta@gmail.com'} , data:"10/12/12", tipoRegistro:"achado"}
             ]
-        });
+        );
     },
 
     

@@ -194,7 +194,7 @@
         
 
         const solicitante = {
-          username : this.nome , 
+          nome : this.nome , 
           email : this.email,
         }
 
@@ -204,7 +204,6 @@
            outro : this.outro,
            nomeProp : this.nomeProp,  
         }
-        console.log(documento)
         
         //EM_ABERTO , RESOLVIDO etc
         //const status = { //outra coisa que vai ser bom ficar numa Store???

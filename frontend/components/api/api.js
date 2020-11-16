@@ -13,15 +13,15 @@ const api = {
     whoami(){
         return get('/api/whoami');
     },
-    adiciona_regsitro(solicitante , documento , tipo_reg){
+    adiciona_registro(solicitante , documento , tipo_reg){
         let solicitante_nome = solicitante.nome
         let solicitante_email = solicitante.email
         let doc_tipo = documento.tipo
         let doc_numero = documento.numero
         let doc_outro = documento.outro
-        let doc_nome_prop = documento.nomeProp
+        let doc_nome = documento.nomeProp
         return post('/api/adiciona_registro', {solicitante_nome: solicitante_nome, solicitante_email: solicitante_email,
-         doc_tipo:doc_tipo , doc_numero:doc_numero , doc_outro:doc_outro , doc_nome_prop:doc_nome_prop, tipo_reg:tipo_reg});
+         doc_tipo:doc_tipo , doc_numero:doc_numero , doc_outro:doc_outro , doc_nome:doc_nome, tipo_reg:tipo_reg});
     },
     lista_correspondencias(documento, tipo_reg){
         let doc_tipo = documento.tipo
