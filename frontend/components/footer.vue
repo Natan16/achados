@@ -4,6 +4,7 @@
     <v-spacer></v-spacer>
     <span>&copy; 2017</span>
   </v-footer>
+  
 </template>
 
 <script>

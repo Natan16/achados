@@ -4,7 +4,6 @@
     <v-form 
       ref="form"
       v-model="valid"
-      lazy-validation
     >
     <!-- <v-container v-if="logged_user" > -->
         <v-layout row wrap>
@@ -131,8 +130,8 @@
       })
   
     },*/
+ 
 
-   
     //form precisa capturar login
     data () {
       return {

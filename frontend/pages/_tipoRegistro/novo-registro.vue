@@ -20,7 +20,7 @@ export default {
   asyncData (context) {
     const tipoRegistro = context.params.tipoRegistro
     return {tipoRegistro} 
-
+    
   },
   data () {
     return {}
