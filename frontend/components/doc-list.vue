@@ -1,11 +1,11 @@
 <!-- z4KyPHfHfJd3 -->
 <template>
 <div>
-   
+
   <v-list two-line>
     <template v-for="corr in sortedCorrs">
-      {{corr.usuario.nome}} alega ter {{corr.tipoRegistro}} o documento registrado em {{corr.data}}. 
-      você pode contactá-lo através do e-mail {{corr.usuario.email}} para que a devolução do 
+      {{corr.nome_solicitante}} alega ter {{corr.tipo_reg}} o documento registrado em {{corr.criado_em}}.
+      você pode contactá-lo através do e-mail {{corr.email_solicitante}} para que a devolução do
       documento seja efetivada.
       <v-divider></v-divider>
     </template>

@@ -212,7 +212,7 @@
         //} //pra isso vai adicionar à api função resolver, que resolve uma solicitação baseada no id dela
         AppApi.adiciona_registro(solicitante, documento , this.tipoRegistro).then(response => {
         
-        })
+        }) //é esta a query que está falhando 
         
         this.$store.commit('SET_SOLICITANTE', solicitante);
         this.$store.commit('SET_DOCUMENTO', documento);

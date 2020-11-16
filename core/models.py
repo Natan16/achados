@@ -59,7 +59,8 @@ class Registro(models.Model):
             'numero_doc': self.documento.numero,
             'nomeProprietario_doc': self.documento.nomeProprietario,
             'criado_em':self.criado_em,
-            'status':self.status
+            'status':self.status,
+            'tipo_reg':self.tipoRegistro
         }
 
 class Todo(models.Model):

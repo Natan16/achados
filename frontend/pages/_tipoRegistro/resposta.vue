@@ -51,6 +51,7 @@ export default {
     let tipoRegistroCorr = tipoRegistro === 'achado' ? 'perdido' : 'achado'
     //documento nao pode ser passado via store
     return AppApi.lista_correspondencias( documento , tipoRegistroCorr).then(result => {  
+      console.log(result)
       return { 
               correspondencias : result.data, 
               encontrado: result.data.length > 0 ,

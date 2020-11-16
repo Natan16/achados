@@ -33,6 +33,7 @@ class TestAchadosApi(TestCase):
         emails = [c['email'] for c in correspondencias]
         self.assertEqual(nomes, [])
         self.assertEqual(emails, [])
+
         # pessoa acha um documento
         r3 = client.post('/api/adiciona_registro', {'solicitante_nome': 'Mariana',
                                         'solicitante_email': 'marianainaradacosta@gmail.com',
