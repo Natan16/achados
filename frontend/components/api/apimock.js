@@ -44,12 +44,18 @@ const api = {
         return mockasync({});
     },
     lista_correspondencias(documento , tipo){ 
+        const d = new Date()
         return mockasync(
             [
-                {usuario : {nome: 'Natan Viana' , email:'natanvianat16@gmail.com'} , data:"10/11/12" , tipoRegistro:"achado"},
-                {usuario : {nome: 'Mariana Inara' , email:'marianainaradacosta@gmail.com'} , data:"10/12/12", tipoRegistro:"achado"}
+                {nome_solicitante: 'Natan Viana' , email_solicitante:'natanvianat16@gmail.com' ,
+                avatar_solicitante:'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
+                criado_em:d.toISOString() , tipo_reg:"achado"},
+                {nome_solicitante: 'Mariana Inara' , email_solicitante:'marianainaradacosta@gmail.com' ,
+                avatar_solicitante:'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
+                criado_em:d.toISOString(), tipo_reg:"achado"}
             ]
         );
+        //return mockasync([])
     },
 
     

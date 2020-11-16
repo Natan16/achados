@@ -1,7 +1,7 @@
 <!-- z4KyPHfHfJd3 -->
 <template>
    <v-container>
-       <h1>Cadastro de documento {{tipoRegistro}}</h1> 
+       <h1 style="color:#1565C0">Cadastro de documento {{tipoRegistro}}</h1> 
    </v-container>
 </template>
 

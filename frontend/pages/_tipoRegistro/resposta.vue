@@ -1,31 +1,13 @@
 <template>
-  <!-- colocar isso aqui dentro de um componente à parte -->
   <div>
 
-    <v-container v-if="!encontrado" >
-      <h1 >
-        Por enquanto nenhuma correspondência foi encontrada para o seu 
-        registro de documento {{tipoRegistro}}.
-      </h1>
-      <br> 
-      <h1>
-        Um e-mail será enviado à você assim que 
-        houver alguma novidade relativa à sua solicitação. 
-      </h1>
-      <br>
-      <h1>
-         Obrigado!
-      </h1> <!-- fazer algum elogio maior à quem achou o documento -->
-         
-    </v-container>
-
+    <nao-encontrado v-if="!encontrado" />
     <v-container v-if="encontrado" >
-      
-      <h1 >
-          As seguintes correspondências foram encontradas para o seu registro
+      <h1 style="color:#1565C0">
+          As seguintes correspondências foram encontradas para o seu registro :
       </h1>
       <br>
-       <doc-list :correspondencias="correspondencias">
+       <doc-list :correspondencias="correspondencias" :tipoRegistro="tipoRegistro">
        </doc-list > 
     </v-container>
   </div>
@@ -37,12 +19,14 @@ import Vuex from 'vuex'
 import AppApi from '~apijs'
 import { mapGetters } from 'vuex'
 import docList from '~/components/doc-list.vue'
+import naoEncontrado from '~/components/nao-encontrado.vue'
 
 export default {
   components: {
-    docList , 
+    naoEncontrado,
+    docList, 
   },
-    
+  
   asyncData(context) {
     //console.log(context.store.getters['formulario/documento'])
     let documento = context.store.getters.documento

@@ -1,5 +1,5 @@
 <template>
-  <v-footer color="blue-grey" class="white--text" app>
+  <v-footer color="#1565C0" class="white--text" app>
     <span>Vuetify</span>
     <v-spacer></v-spacer>
     <span>&copy; 2017</span>

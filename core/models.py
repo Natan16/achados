@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from commons.utils import gravatar_url
 
 class ActivityLog(models.Model):
     type = models.CharField(max_length=64)
@@ -54,6 +55,7 @@ class Registro(models.Model):
             'nome_solicitante': self.usuario.first_name,
             'sobrenome_solicitante': self.usuario.last_name,
             'email_solicitante': self.usuario.email,
+            'avatar_solicitante': gravatar_url(self.user.email),
             'tipo_doc': self.documento.tipo,
             'outro_doc': self.documento.outro,
             'numero_doc': self.documento.numero,
