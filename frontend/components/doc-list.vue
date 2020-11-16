@@ -17,7 +17,7 @@
               <img :src="corr.avatar_solicitante">
             </v-avatar>
             {{corr.nome_solicitante}}
-            {{corr.criado_em | timeago}}
+            ({{corr.criado_em | timeago}})
           </div>
            <!-- padding e alinhar à esquerda -->
         

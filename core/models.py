@@ -55,7 +55,7 @@ class Registro(models.Model):
             'nome_solicitante': self.usuario.first_name,
             'sobrenome_solicitante': self.usuario.last_name,
             'email_solicitante': self.usuario.email,
-            'avatar_solicitante': gravatar_url(self.user.email),
+            'avatar_solicitante': gravatar_url(self.usuario.email),
             'tipo_doc': self.documento.tipo,
             'outro_doc': self.documento.outro,
             'numero_doc': self.documento.numero,

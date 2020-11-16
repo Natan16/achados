@@ -92,6 +92,7 @@
         color="success"
         class="mr-4"
         @click="validate"
+        style="border-radius:28px;"
       >
         Registrar
       </v-btn>
@@ -100,6 +101,7 @@
         color="error"
         class="mr-4"
         @click="reset"
+        style="border-radius:28px;"
       >
         Limpar
       </v-btn>
