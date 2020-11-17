@@ -1,4 +1,4 @@
-import Vuex from 'vuex'
+/*import Vuex from 'vuex'
 
 const store_correspondencias = () => new Vuex.Store({
  
@@ -32,4 +32,4 @@ const store_correspondencias = () => new Vuex.Store({
   }
 })
 
-export default store_correspondencias
+export default store_correspondencias*/

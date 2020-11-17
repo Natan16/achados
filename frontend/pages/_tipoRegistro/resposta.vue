@@ -49,8 +49,8 @@ export default {
   },
 
   mounted() {
-    //this.solicitante.nome , this.solicitante.email
-    //AppApi.enviar_email( )
+    //for corr in this.correspondencias.length, 
+    //AppApi.envia_email( )
   },
 
   data () {
