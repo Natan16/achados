@@ -1,11 +1,11 @@
 from django.db import IntegrityError
-from core.models import Documento, Registro, User, Perfil
+from core.models import Documento, Registro, User, Profile
 from django.db.models import Q
 from commons.utils import gravatar_url
 
 def google_login(email,name,picture,given_name,family_name):
 
-    perfil,_ = Perfil.objects.get_or_create(email=email)
+    perfil,_ = Profile.objects.get_or_create(email=email)
 
     if (not perfil.usuario):
         try:
@@ -30,7 +30,7 @@ def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
         return None
     if (not loggeduser):
 
-       perfil,_ = Perfil.objects.get_or_create(usuario=None, avatar="gravatar_url(solicitande_email)",
+       perfil,_ = Profile.objects.get_or_create(usuario=None, avatar="gravatar_url(solicitande_email)",
                               email=solicitande_email)
     #    perfil.nome = solicitante_nome
     #    perfil.save()
@@ -75,6 +75,6 @@ def lista_correspondencias(doc_tipo , doc_numero , doc_outro ,
 
 def consulta_registros(loggedUser):
     registros =  Registro.objects.filter(
-        Q(perfil__in=Perfil.objects.filter(usuario=loggedUser)))
+        Q(perfil__in=Profile.objects.filter(usuario=loggedUser)))
 
     return [r.to_dict_json() for r in registros]

@@ -19,7 +19,7 @@ class ActivityLog(models.Model):
             self.created_at,
         )
 
-class Perfil(models.Model):
+class Profile(models.Model):
     usuario = models.ForeignKey(User, null=True, blank=True)
     avatar = models.URLField()
     nome = models.TextField()
@@ -33,7 +33,8 @@ class Perfil(models.Model):
             'email': self.numero,
             'avatar': self.avatar
         }
-#possivel solução é fazer nova migração sem o perfil 
+
+#possivel solução é fazer nova migração sem o perfil
 class Documento(models.Model):
     tipo = models.TextField()
     outro = models.BooleanField()
@@ -53,7 +54,7 @@ class Documento(models.Model):
 
 #registros são únicos
 class Registro(models.Model):
-    perfil = models.ForeignKey(Perfil)
+    perfil = models.ForeignKey(Profile)
     documento = models.ForeignKey(Documento)
     tipoRegistro = models.TextField()
     criado_em = models.DateTimeField('criado em', auto_now_add=True)
