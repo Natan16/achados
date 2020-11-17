@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from commons.utils import gravatar_url
+
 
 class ActivityLog(models.Model):
     type = models.CharField(max_length=64)
@@ -19,14 +19,26 @@ class ActivityLog(models.Model):
             self.created_at,
         )
 
-#ver se user já não tem um campo equivalente à possui_login
+class Perfil(models.Model):
+    usuario = models.ForeignKey(User, null=True, blank=True)
+    avatar = models.URLField()
+    nome = models.TextField()
+    email = models.EmailField()
 
+    def to_dict_json(self):
+        return {
+            'username': self.nome,
+            'first_name': self.usuario.first_name,
+            'last_name': self.usuario.last_name,
+            'email': self.numero,
+            'avatar': self.avatar
+        }
+#possivel solução é fazer nova migração sem o perfil 
 class Documento(models.Model):
-    tipo = models.TextField()  #tipos fixos ( seria melhor usar um enum ? já que o banco de dados não precisa saber o tipo)
+    tipo = models.TextField()
     outro = models.BooleanField()
     numero = models.TextField() #nao necessarimente eh um numero
     nomeProprietario = models.TextField()
-    #proprietario = models.ForeignKey(User, null=True, empty=True )
     class Meta:
         unique_together = ('tipo', 'numero', 'outro')
 
@@ -39,30 +51,24 @@ class Documento(models.Model):
             'nomeProprietario': self.nomeProprietario
         }
 
-
 #registros são únicos
 class Registro(models.Model):
-    usuario = models.ForeignKey(User)
-    #se o registro for de documento perdido, pode até relacionar usuário à documento
+    perfil = models.ForeignKey(Perfil)
     documento = models.ForeignKey(Documento)
     tipoRegistro = models.TextField()
     criado_em = models.DateTimeField('criado em', auto_now_add=True)
     status = models.SmallIntegerField(default=0)
-    #só precisa retornar o registro
+
     def to_dict_json(self):
+
         return {
-            'id': self.id,
-            'nome_solicitante': self.usuario.first_name,
-            'sobrenome_solicitante': self.usuario.last_name,
-            'email_solicitante': self.usuario.email,
-            'avatar_solicitante': gravatar_url(self.usuario.email),
             'tipo_doc': self.documento.tipo,
             'outro_doc': self.documento.outro,
             'numero_doc': self.documento.numero,
             'nomeProprietario_doc': self.documento.nomeProprietario,
-            'criado_em':self.criado_em,
-            'status':self.status,
-            'tipo_reg':self.tipoRegistro
+            'criado_em': self.criado_em,
+            'status': self.status,
+            'tipo_reg': self.tipoRegistro
         }
 
 class Todo(models.Model):

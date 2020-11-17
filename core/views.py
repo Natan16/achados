@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from google.oauth2 import id_token
 from google.auth.transport import requests
+from commons.django_views_utils import ajax_login_required
 
 def dapau(request):
     raise Exception('break on purpose')
@@ -15,23 +16,21 @@ def dapau(request):
 def google_login(request):
     token = request.POST.get('id_token')
     try:
-        # Specify the CLIENT_ID of the app that accesses the backend:
+        #TODO por o CLIENT_ID num arquivo fora do git
         idinfo = id_token.verify_oauth2_token(token, requests.Request(),
                                               "649795675193-qiheujqkem1i9k0r7boqr0o0c9n5rk83.apps.googleusercontent.com"
                                               )
-            
-        #TODO se usuário não existir, criar ele
-        #se já existir, mas ainda não foi logado com google, logar
 
-
-        return JsonResponse({}, safe=False)
+        perfil = achados_svc.google_login(idinfo['email'],idinfo['name'],idinfo['picture'],idinfo['given_name'],
+        idinfo['family_name'])
+        #auth.login(request, usuario)
+        return JsonResponse(perfil, safe=False)
 
     except ValueError:
-        # Invalid token
-        pass
+        return JsonResponse(None, safe=False)
 
 
-
+#nao vai ser mais chamado
 @csrf_exempt
 def login(request):
     username = request.POST.get('username')
@@ -63,19 +62,29 @@ def whoami(request):
     return JsonResponse(i_am)
 
 def adiciona_registro(request):
-    registro = achados_svc.adiciona_registro(request.POST.get('solicitante_nome'),request.POST.get('solicitante_email'),
-                                             request.POST.get('doc_tipo'),request.POST.get('doc_numero'),
-                                             request.POST.get('doc_outro'),request.POST.get('doc_nome'),
+    loggeduser = request.user if request.user.is_authenticated() else None
+
+    registro = achados_svc.adiciona_registro(loggeduser, request.POST.get('solicitante_nome'),
+                                             request.POST.get('solicitante_email'),
+                                             request.POST.get('doc_tipo'), request.POST.get('doc_numero'),
+                                             request.POST.get('doc_outro'), request.POST.get('doc_nome'),
                                              request.POST.get('tipo_reg'))
-    #os métodos post tem que retornar uma resposta HTTP?
-    return JsonResponse(registro)
+    return JsonResponse(registro, safe=False)
 
 def lista_correspondencias(request):
+
     correspondencias = achados_svc.lista_correspondencias(request.GET.get('doc_tipo'), request.GET.get('doc_numero'),
-                                                          request.GET.get('doc_outro'),request.GET.get('doc_nome_prop'),
+                                                          request.GET.get('doc_outro'),request.GET.get('doc_nome'),
                                                           request.GET.get('tipo_reg'))
 
     return JsonResponse(correspondencias, safe=False)
+
+@ajax_login_required
+def consulta_registros(request):
+    loggeduser = request.user
+    registros = achados_svc.consulta_registros(loggeduser)
+    return JsonResponse(registros)
+
 
 #seria post, pois executa uma ação ou get, pois não altera o banco de dados?
 def envia_email(request):

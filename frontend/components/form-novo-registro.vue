@@ -106,6 +106,7 @@
       </v-btn>
 
     </v-form>
+    <login-dialog ref="login_dialog"/>
   </v-container>
 </template>
 <!-- é necessário ter algo relativo à localização -->
@@ -115,8 +116,12 @@
   //TODO : fazer melhor validação do formulário
   import Vuex from 'vuex'
   import AppApi from '~apijs'
+  import loginDialog from '~/components/login-dialog.vue'
 
   export default {
+    components: {
+      loginDialog
+    },
     computed: {},
     
     /*asyncData() {
@@ -181,6 +186,11 @@
     },
 
     methods: {
+      //open_login_dialog (evt) {
+       
+      //  evt.stopPropagation();
+      //}
+
       checkCorrespondencia(registro){
         const tipoOposto = this.tipoRegistro == 'achado' ? 'perdido' : 'achado'
         return registro.status == 0 && registro.tipoRegistro == tipoOposto  
@@ -206,32 +216,22 @@
            nomeProp : this.nomeProp,  
         }
         
-        //EM_ABERTO , RESOLVIDO etc
-        //const status = { //outra coisa que vai ser bom ficar numa Store???
-        //  EM_ABERTO: 0,
-        //  RESOLVIDO: 1,
-        //} //pra isso vai adicionar à api função resolver, que resolve uma solicitação baseada no id dela
         AppApi.adiciona_registro(solicitante, documento , this.tipoRegistro).then(response => {
+            console.log("Resposta do adiciona_registro")
+            console.log(response)
+            if (!response.data){
+              this.$refs.login_dialog.open(); 
+            } 
+            else {
+              this.$store.commit('SET_SOLICITANTE', solicitante);
+              this.$store.commit('SET_DOCUMENTO', documento);
         
-        }) //é esta a query que está falhando 
-        
-        this.$store.commit('SET_SOLICITANTE', solicitante);
-        this.$store.commit('SET_DOCUMENTO', documento);
-        
-        //em vez de setar correspondências, poderia fazer várias chamadas de Api em respostas.vue para 
-        //recuparar as correspondências essa página faria simplesmente os adds, faz sentido?
-        this.$router.push({ name: 'tipoRegistro-resposta', params:{tipoRegistro:this.tipoRegistro} });
+              this.$router.push({ name: 'tipoRegistro-resposta', params:{tipoRegistro:this.tipoRegistro} });
 
+            }  
+        })  
         
-        
-         
-        // window.open('mailto:natanvianat16@gmail.com?subject=documento_encontrado&body=Aqui está seu documento');
-        //guardar os dados do formulário no banco
-        //a ação do validate é redirecionar para uma página que fala 
-        // :enviaremos um email para você se o item for encontrado
-        //window.open('mailto:test@example.com'); ou fazer uma chamada ajax para o servidor enviar o email
-        //autenticação vai ser necessária se a pessoa quiser cancelar busca
-        //no futuro, integrar reconhecimento facial ( dar opção de upload da foto )
+      
       },
       reset () {
         this.$refs.form.reset()
