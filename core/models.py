@@ -19,6 +19,23 @@ class ActivityLog(models.Model):
             self.created_at,
         )
 
+
+class Perfil(models.Model):
+    usuario = models.ForeignKey(User, null=True, blank=True)
+    avatar = models.URLField()
+    nome = models.TextField()
+    email = models.EmailField()
+
+    def to_dict_json(self):
+        return {
+            'username': self.nome,
+            'first_name': self.usuario.first_name,
+            'last_name': self.usuario.last_name,
+            'email': self.numero,
+            'avatar': self.avatar
+        }
+
+
 class Profile(models.Model):
     usuario = models.ForeignKey(User, null=True, blank=True)
     avatar = models.URLField()
@@ -51,10 +68,10 @@ class Documento(models.Model):
             'numero': self.numero,
             'nomeProprietario': self.nomeProprietario
         }
-
+#core registro nao possui perfil id
 #registros são únicos
 class Registro(models.Model):
-    perfil = models.ForeignKey(Profile)
+    profile = models.ForeignKey(Profile, null=True)
     documento = models.ForeignKey(Documento)
     tipoRegistro = models.TextField()
     criado_em = models.DateTimeField('criado em', auto_now_add=True)
@@ -63,6 +80,9 @@ class Registro(models.Model):
     def to_dict_json(self):
 
         return {
+            #'nome':self.perfil.nome,
+            #'email': self.perfil.email,
+            #'avatar': self.perfil.avatar,
             'tipo_doc': self.documento.tipo,
             'outro_doc': self.documento.outro,
             'numero_doc': self.documento.numero,

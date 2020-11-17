@@ -32,32 +32,33 @@ def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
 
        perfil,_ = Profile.objects.get_or_create(usuario=None, avatar="gravatar_url(solicitande_email)",
                               email=solicitande_email)
-    #    perfil.nome = solicitante_nome
-    #    perfil.save()
-    #else:
-    #    perfil = Perfil.objects.get(email=solicitande_email)
-
-    #perfil,_ = Perfil.objects.get_or_create(usuario=None, avatar=gravatar_url(solicitande_email),
-    #                          email=solicitande_email)
-    #perfil.nome = solicitante_nome
-    #perfil.save()
+       perfil.nome = solicitante_nome
+       perfil.save()
+    else:
+        perfil = Profile.objects.get(email=solicitande_email)
+    print(perfil)
+    perfil,_ = Profile.objects.get_or_create(usuario=None, avatar=gravatar_url(solicitande_email),
+                              email=solicitande_email)
+    perfil.nome = solicitante_nome
+    perfil.save()
     #nome_parts = solicitante_nome.split()
     #nome = nome_parts[0]
     #sobrenome = " ".join(nome_parts[1:len(nome_parts)]) if len(nome_parts) > 1 else ""
-
+    #Não vai mais criar usuário
     #try:
     #    usuario = User.objects.create_user(username=solicitande_email, email=solicitande_email,
     #                                       first_name=nome, last_name=sobrenome)
     #except IntegrityError:
     #    usuario = User.objects.get(username=solicitande_email, email=solicitande_email)
 
-    #outro = True if doc_tipo == 'Outro' else False
-    #doc_tipo = doc_outro if outro else doc_tipo
+    outro = True if doc_tipo == 'Outro' else False
+    doc_tipo = doc_outro if outro else doc_tipo
 
-    #documento , _ = Documento.objects.get_or_create(tipo=doc_tipo, outro=outro, numero=doc_numero,
-    #                                     nomeProprietario=doc_nome)
+    documento , _ = Documento.objects.get_or_create(tipo=doc_tipo, outro=outro, numero=doc_numero,
+                                         nomeProprietario=doc_nome)
 
-    #registro = Registro.objects.create(perfil=perfil, documento=documento, tipoRegistro=tipo_reg)
+    registro = Registro.objects.create(profile=perfil ,documento=documento, tipoRegistro=tipo_reg)
+
     return None#registro.to_dict_json()
 
 
