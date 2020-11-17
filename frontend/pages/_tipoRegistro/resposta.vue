@@ -8,7 +8,7 @@
       </h1>
       <br>
        <doc-list :correspondencias="correspondencias" :tipoRegistro="tipoRegistro">
-       </doc-list > 
+       </doc-list >
     </v-container>
   </div>
 </template>
@@ -21,12 +21,14 @@ import { mapGetters } from 'vuex'
 import docList from '~/components/doc-list.vue'
 import naoEncontrado from '~/components/nao-encontrado.vue'
 
+
+
 export default {
   components: {
     naoEncontrado,
-    docList, 
+    docList,
   },
-  
+
   asyncData(context) {
     //console.log(context.store.getters['formulario/documento'])
     let documento = context.store.getters.documento
@@ -34,23 +36,27 @@ export default {
     let tipoRegistro = context.params.tipoRegistro
     let tipoRegistroCorr = tipoRegistro === 'achado' ? 'perdido' : 'achado'
     //documento nao pode ser passado via store
-    return AppApi.lista_correspondencias( documento , tipoRegistroCorr).then(result => {  
+    return AppApi.lista_correspondencias( documento , tipoRegistroCorr).then(result => {
       console.log(result)
-      return { 
-              correspondencias : result.data, 
+      return {
+              correspondencias : result.data,
               encontrado: result.data.length > 0 ,
-              documento : documento , 
+              documento : documento ,
               solicitante : solicitante,
               tipoRegistro : tipoRegistro
             }
       })
 
-    //faltou mandar email pra todas as correspondências avisando que solicitante achou. Pode fazer isso em mounted, de maneira assícrona
   },
 
   mounted() {
-    //for corr in this.correspondencias.length, 
-    //AppApi.envia_email( )
+    const tipo_reg_texto =  this.tipoRegistro === 'achado' ? 'achou' : 'perdeu';
+    let corr;
+    for (corr in this.correspondencias){
+      AppApi.envia_email(corr.email_solicitante , `Olá, ${this.solicitante.nome} ${this.tipo_reg_texto} o
+      ${this.documento.tipo} que você registrou. Envie um email para ${this.solicitante.email}
+      para combinar com ele os detablhes da devolução`); //delega para o backend o envio dos emails
+    }
   },
 
   data () {
@@ -58,8 +64,8 @@ export default {
     }
   }
 }
-//pegar o caso de o mesmo loggedUser já ter registrado esse documento, vai fazer algo a respeito? 
-//Sim, apenas quando for implementado o usuário logado 
+//pegar o caso de o mesmo loggedUser já ter registrado esse documento, vai fazer algo a respeito?
+//Sim, apenas quando for implementado o usuário logado
 </script>
 
 <style>

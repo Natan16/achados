@@ -14,11 +14,6 @@ class TestAchadosApi(TestCase):
 
     def test_achados_api(self):
         client = Client()
-        # r1 = client.get('/api/whoami')
-        # client.force_login(User.objects.get(username='jon'))
-        # criar formularios padrao pra testar as possiveis respostas da api no preenchimento
-        # p.ex : com ou sem o tipo outro, com nome de usuario valido etc
-
         # pessoa perde um documento
         r1 = client.post('/api/adiciona_registro', {'solicitante_nome': 'Natan', 'solicitante_email': 'natanvianat16@gmail.com',
                                         'doc_tipo': 'RA', 'doc_numero': '585291', 'doc_outro': '',
@@ -52,10 +47,15 @@ class TestAchadosApi(TestCase):
         #email é enviado para a pessoa que perdeu
         nome = nomes[0]
         email = emails[0]
-        '''
-        r5 = client.post('/api/envia_email', )
+
+        r5 = client.post('/api/envia_email', {'destinatario': 'natanvianat16@gmail.com', 'texto':'Olá, Mariana achou o RG '
+                                                                                                'que você registrou. '
+                                                                                                'Envie um email para '
+                                                                                                'marianainaradacosta@gmail.com'
+                                                                                                ' para combinar os detablhes'
+                                                                                                ' da devolução'})
         self.assertEqual(200, r5.status_code)
-        '''
+
 
     def _regristra(self):
         pass

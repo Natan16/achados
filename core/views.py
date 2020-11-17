@@ -2,15 +2,34 @@
 import json
 from django.http.response import HttpResponse, JsonResponse
 from django.contrib import auth
-from commons.django_model_utils import get_or_none
-from commons.django_views_utils import ajax_login_required
 from core.service import log_svc, achados_svc
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
-
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
 def dapau(request):
     raise Exception('break on purpose')
+
+@csrf_exempt
+def google_login(request):
+    token = request.POST.get('id_token')
+    try:
+        # Specify the CLIENT_ID of the app that accesses the backend:
+        idinfo = id_token.verify_oauth2_token(token, requests.Request(),
+                                              "649795675193-qiheujqkem1i9k0r7boqr0o0c9n5rk83.apps.googleusercontent.com"
+                                              )
+            
+        #TODO se usuário não existir, criar ele
+        #se já existir, mas ainda não foi logado com google, logar
+
+
+        return JsonResponse({}, safe=False)
+
+    except ValueError:
+        # Invalid token
+        pass
+
 
 
 @csrf_exempt
@@ -60,14 +79,18 @@ def lista_correspondencias(request):
 
 #seria post, pois executa uma ação ou get, pois não altera o banco de dados?
 def envia_email(request):
-    send_mail(
-        'Subject here',
-        'Here is the message.',
-        'from@example.com',
-        ['to@example.com'],
+    result = send_mail(
+        'Achados & Perdidos ',
+        request.POST.get('texto'),
+        'nao_tem@gmail.com',
+        [request.POST.get('destinatario')],
         fail_silently=False,
+
     )
-    JsonResponse({})
+    #auth_user = 'EMAIL_AQUI',
+    #auth_password = 'SENHA_AQUI'
+
+    return HttpResponse('{}')
 
 def _user2dict(user):
     d = {

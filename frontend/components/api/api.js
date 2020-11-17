@@ -4,6 +4,8 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const api = {
+
+
     login(username, password){
         return post('/api/login', {username: username, password: password});
     },
@@ -35,12 +37,26 @@ const api = {
     //PARA FAZER A APLICAÇÃO COMPLETA
     //cadastra_usuario
     //lista_registros
-    //envia_email
+    envia_email(destinatario, texto){
+        return post('/api/envia_email', {destinatario:destinatario , texto:texto} ) 
+    },
+
+    google_login(id_token){
+        return post('/api/google_login' , {id_token:id_token})
+    }
+  /*  social_login(provider){
+        var url = {
+            'google': '/login/google-oauth2',
+            'facebook': '/login/facebook',
+        }[provider]
+        if(url){
+            window.location = url
+    }*/
+}
     //resolve_registro
     //reabre_registro etc
 
 
-}
 export default api;
 
 function get(url, params){

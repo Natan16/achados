@@ -59,9 +59,25 @@ const api = {
     },
 
     
-    //envia_email(email , texto){
-    //    return mockasync({})  
-    //},
+    envia_email(email , texto){
+        return mockasync({})  
+    },
+
+    google_login(id_token){
+        logged_user = {
+                username: 'zuckbrau',
+                first_name: 'Mark',
+                last_name: 'Zuckerberg',
+                email: 'zuck@facebook.com',
+                avatar: 'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
+                notifications_enabled: true,
+                permissions:{
+                    ADMIN: 'zuckbrau' == 'admin',
+                    STAFF: 'zuckbrau' == 'admin',
+                }
+            };
+        return mockasync(logged_user)  
+    }
     //lista_registros(usuario){
     //  return mockasync({});  
     //}
