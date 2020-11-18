@@ -59,7 +59,7 @@ def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
 
     registro = Registro.objects.create(profile=perfil ,documento=documento, tipoRegistro=tipo_reg)
 
-    return None#registro.to_dict_json()
+    return registro.to_dict_json()
 
 
 #só está chegando aqui quando é usuário registrado ... problema é que não tem perfil associado ao registro

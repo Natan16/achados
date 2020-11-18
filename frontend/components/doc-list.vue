@@ -14,9 +14,9 @@
         <div >
           <div style="text-align:left;color:#FFFFFF;padding:20px" class="display-1">
             <v-avatar>
-              <img :src="corr.avatar_solicitante">
+              <img :src="corr.avatar">
             </v-avatar>
-            {{corr.nome_solicitante}}
+            {{corr.nome}}
             ({{corr.criado_em | timeago}})
           </div>
            <!-- padding e alinhar à esquerda -->
@@ -39,7 +39,7 @@
             </v-container>
           </p>
         <div style="padding:20px">
-          Entre em contato através do e-mail <b>{{corr.email_solicitante}}</b> para combinar os detalhes da devolução.
+          Entre em contato através do e-mail <b>{{corr.email}}</b> para combinar os detalhes da devolução.
           
         </div>
       </v-card>

@@ -80,9 +80,9 @@ class Registro(models.Model):
     def to_dict_json(self):
 
         return {
-            #'nome':self.perfil.nome,
-            #'email': self.perfil.email,
-            #'avatar': self.perfil.avatar,
+            'nome':self.profile.nome,
+            'email': self.profile.email,
+            'avatar': self.profile.avatar,
             'tipo_doc': self.documento.tipo,
             'outro_doc': self.documento.outro,
             'numero_doc': self.documento.numero,
