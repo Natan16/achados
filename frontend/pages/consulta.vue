@@ -1,5 +1,5 @@
 <template>
- 	<div><consulta-list :registros=registros :correspondencias=correspondencias ></consulta-list></div>
+ 	<div><!-- <consulta-list :registros=registros :correspondencias=correspondencias > </consulta-list>--></div>
 </template>
 
 <script>
@@ -22,7 +22,7 @@ export default {
       ])
     ),
 
-	asyncData(context) { 
+	/*asyncData(context) { 
 		return AppApi.consulta_registros(context.logged_user).then(result => {
 	  		var registros = result.data
 			var correspondencias = [] 
@@ -38,7 +38,7 @@ export default {
 	  		}
 		})
 	},
-
+*/
 
   	data () {
     	return {}
