@@ -122,23 +122,16 @@
     components: {
       loginDialog
     },
-    computed: {},
+    computed: Object.assign(
+      {},
+      Vuex.mapGetters([
+        'logged_user'
+      ])
+    ),
     
-    /*asyncData() {
-      return AppApi.whoami().then(response => { 
-        var user = response.data.user
-        console.log(response)
-        if( response.data.autenticated ) 
-          return {name: user.name, email :user.email , autenticated : true }
-        return {name:'' , email :'' , autenticated : false}
-
-      })
-  
-    },*/
- 
-
     //form precisa capturar login
     data () {
+
       return {
         nome:'',
         email:'',
@@ -184,6 +177,12 @@
 
       }
     },
+    mounted(){
+      if (this.logged_user){
+        this.nome = this.logged_user.first_name + " " + this.logged_user.last_name
+        this.email = this.logged_user.email
+      }
+    },
 
     methods: {
       //open_login_dialog (evt) {
@@ -198,12 +197,8 @@
       },
       
       validate () {
-        this.$refs.form.validate() //precisa de cadastro?
-        //preenche novoachado -> não dá pra preencher enquanto preenche o form? vamos tentar 
-        //TODO : falta isso aqui!!!!!!!
-        //caso de estar na aba achado
+        this.$refs.form.validate() 
         
-
         const solicitante = {
           nome : this.nome , 
           email : this.email,
@@ -216,6 +211,7 @@
            nomeProp : this.nomeProp,  
         }
         
+        //TODO : podia ter um loading aqui, pra colocar no botão 
         AppApi.adiciona_registro(solicitante, documento , this.tipoRegistro).then(response => {
             console.log("Resposta do adiciona_registro")
             console.log(response)
@@ -242,40 +238,7 @@
     },
   }
 </script>
-<!-- <script>
-import AppApi from '~apijs'
-export default {
-  data () {
-    return {
-      newtask: '',
-      adding: false,
-      loading: false,
-      items: [
-      ]
-    }
-  },
-  mounted () {
-    this.loading = true
-    AppApi.list_todos().then(response => {
-      const todos = response.data.todos
-      this.items = todos
-      this.loading = false
-    })
-  },
-  methods: {
-    add () {
-      this.adding = true
-      AppApi.add_todo(this.newtask).then(response => {
-        const todo = response.data
-        this.items.push(todo)
-        this.newtask = ''
-        this.adding = false
-      })
-    }
-  }
-}
-</script>
- -->
+
 <style scoped>
 
 </style>

@@ -77,11 +77,46 @@ const api = {
                 }
             };
         return mockasync(logged_user)  
-    }
-    //lista_registros(usuario){
-    //  return mockasync({});  
-    //}
-    //resolve_registro()//pelo id ?  
+    },
+
+
+        
+    consulta_registros(){
+        var d = new Date()
+        return mockasync([{
+            id: "1",
+            nome:"Natan",
+            email: "natanvianat16@gmail.com",
+            avatar: "http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg",
+            tipo_doc: "RG",
+            outro_doc: "",
+            numero_doc: "1234",
+            nomeProprietario_doc: "Natan Lima Viana",
+            criado_em: d.toISOString(),
+            status: 0,
+            tipo_reg: "perdido"
+        },{
+            id: "2",
+            nome:"Natan",
+            email: "natanvianat16@gmail.com",
+            avatar: "http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg",
+            tipo_doc: "RG",
+            outro_doc: "",
+            numero_doc: "1234",
+            nomeProprietario_doc: "Natan Lima Viana",
+            criado_em: d.toISOString(),
+            status: 0,
+            tipo_reg: "perdido"
+        }])
+    },
+
+    exclui_registro(id){
+        return mockasync({})
+    },
+    
+    /*toggle_status(){
+
+    }*/ 
 
   
 };

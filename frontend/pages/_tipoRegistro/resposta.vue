@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <nao-encontrado v-if="!encontrado" />
+    <nao-encontrado v-if="!encontrado" :tipoRegistro="tipoRegistro" />
     <v-container v-if="encontrado" >
       <h1 style="color:#1565C0">
           As seguintes correspondências foram encontradas para o seu registro :

@@ -51,7 +51,7 @@ class Profile(models.Model):
             'avatar': self.avatar
         }
 
-#possivel solução é fazer nova migração sem o perfil
+
 class Documento(models.Model):
     tipo = models.TextField()
     outro = models.BooleanField()
@@ -80,6 +80,7 @@ class Registro(models.Model):
     def to_dict_json(self):
 
         return {
+            'id': self.id,
             'nome':self.profile.nome,
             'email': self.profile.email,
             'avatar': self.profile.avatar,
@@ -91,6 +92,7 @@ class Registro(models.Model):
             'status': self.status,
             'tipo_reg': self.tipoRegistro
         }
+
 
 class Todo(models.Model):
     description = models.CharField(max_length=512)

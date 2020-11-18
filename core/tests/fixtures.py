@@ -1,4 +1,4 @@
-from core.models import User
+from core.models import User , Profile
 
 
 def user_jon():
@@ -10,3 +10,19 @@ def user_jon():
         password='snow',
     )
     return ze
+
+def usuario_natan():
+    nat = User.objects.create_user(
+        username='Natan',
+        first_name='Natan',
+        last_name='Viana',
+        email='natanvianat16@gmail.com',
+        password='snow',
+    )
+    Profile.objects.create(usuario=nat , avatar='https://lh3.googleusercontent.com/-aCuJKjbIDuQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnYEx3SR7ACRGWptCOniEdpAj7oPg/s96-c/photo.jpg'
+                           , nome='Natan', email='natanvianat16@gmail.com')
+    #deveria criar cliente também?
+
+    return nat
+
+

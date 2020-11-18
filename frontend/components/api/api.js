@@ -43,6 +43,14 @@ const api = {
 
     google_login(id_token){
         return post('/api/google_login' , {id_token:id_token})
+    },
+    //retorna todos os registros feitos por um determinado usuário
+    consulta_registros(){
+        return get('/api/consulta_registros')
+    },
+
+    exclui_registro(id){
+        return post('/api/exclui_registro',{id:id})
     }
   /*  social_login(provider){
         var url = {

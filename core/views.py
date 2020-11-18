@@ -83,8 +83,12 @@ def lista_correspondencias(request):
 def consulta_registros(request):
     loggeduser = request.user
     registros = achados_svc.consulta_registros(loggeduser)
-    return JsonResponse(registros)
+    return JsonResponse(registros , safe=False)
 
+@ajax_login_required
+def exclui_registro(request):
+    achados_svc.exclui_registro(request.POST.get('id'))
+    return JsonResponse({})
 
 #seria post, pois executa uma ação ou get, pois não altera o banco de dados?
 def envia_email(request):

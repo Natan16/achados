@@ -26,14 +26,12 @@ import Vuex from 'vuex'
 import AppApi from '~apijs'
 
 export default {
-  props:['encontrado'],
+  props:['encontrado', 'tipoRegistro'],
   data () {
     return {
     }
   }
-}
-//pegar o caso de o mesmo loggedUser já ter registrado esse documento, vai fazer algo a respeito? 
-//Sim, apenas quando for implementado o usuário logado 
+} 
 </script>
 
 <style>

@@ -9,5 +9,8 @@ urlpatterns = [
     url(r'^api/whoami$', views.whoami),
     url(r'^api/adiciona_registro', views.adiciona_registro),
     url(r'^api/lista_correspondencias$', views.lista_correspondencias),
-    url(r'^api/envia_email$', views.envia_email)
+    url(r'^api/envia_email$', views.envia_email),
+    url(r'^api/exclui_registro$', views.exclui_registro),
+    url(r'^api/consulta_registros$', views.consulta_registros),
+
 ]

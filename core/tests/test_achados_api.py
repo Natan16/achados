@@ -10,72 +10,79 @@ TEXTO_EMAIL = '%s alega ter encontrado seu %s entre em contato com ele através 
 class TestAchadosApi(TestCase):
     @classmethod
     def setUpTestData(cls):
-        fixtures.user_jon()
+        fixtures.usuario_natan()
 
-    def test_achados_api(self):
-        client = Client()
-        # pessoa perde um documento
-        #force login?
-        r1 = client.post('/api/adiciona_registro', {'solicitante_nome': 'Natan', 'solicitante_email': 'natan@gmail.com',
-                                        'doc_tipo': 'RA', 'doc_numero': '585291', 'doc_outro': '',
-                                        'doc_nome': 'Natan Lima Viana', 'tipo_reg': 'perdido'})
-        self.assertEqual(200, r1.status_code)
-        r2 = client.get('/api/lista_correspondencias', {'doc_tipo': 'RA', 'doc_numero': '585291', 'doc_outro': '',
-                                                       'tipo_reg': 'achado', 'doc_nome':'Natan Lima Viana'})
-        #nenhuma correspondencia é encontrada
-        self.assertEqual(200, r2.status_code)
-        correspondencias = json.loads(r2.content.decode('utf-8'))
-        nomes = [c['nome'] for c in correspondencias]
-        emails = [c['email'] for c in correspondencias]
-        self.assertEqual(nomes, [])
-        self.assertEqual(emails, [])
 
-        # pessoa acha um documento
-        r3 = client.post('/api/adiciona_registro', {'solicitante_nome': 'Mariana',
-                                        'solicitante_email': 'marianainaradacosta@gmail.com',
-                                        'doc_tipo': 'RA', 'doc_numero': '585291', 'doc_outro': '',
-                                        'doc_nome': 'Natan Lima Viana', 'tipo_reg': 'achado'})
-        self.assertEqual(200, r3.status_code)
-        r4 = client.get('/api/lista_correspondencias', {'doc_tipo': 'RA', 'doc_numero': '585291', 'doc_outro': '',
-                                                       'tipo_reg': 'perdido', 'doc_nome':'Natan Lima Viana'})
-        self.assertEqual(200, r4.status_code)
-        #correspondencia é encontrada
-        correspondencias = json.loads(r4.content.decode('utf-8'))
-        nomes = [c['nome_solicitante'] for c in correspondencias]
-        emails = [c['email_solicitante'] for c in correspondencias]
-        self.assertEqual(nomes, ['Natan'])
-        self.assertEqual(emails, ['natan@gmail.com'])
-        #email é enviado para a pessoa que perdeu
-        nome = nomes[0]
-        email = emails[0]
 
-        r5 = client.post('/api/envia_email', {'destinatario': 'natanvianat16@gmail.com', 'texto':'Olá, Mariana achou o RG '
+    def test_registro_resultado(self):
+        natan, anon= Client(), Client()
+        natan.force_login(User.objects.get(username='Natan'))
+        #usuário logado perde um documento
+        self._regristra(natan,'Natan', 'natanvianat16@gmail.com', 'RA' , '585291', '','Natan Lima Viana' , 'perdido')
+        self._assert_correspondencias(natan, 'RA', '585291', '', 'achado', 'Natan Lima Viana' , [] , [])
+
+        #usuário não logado acha o documento
+        self._regristra(anon,'Mariana', 'marianainaradacosta@gmail.com', 'RA' , '585291', '','Natan Lima Viana' , 'achado')
+        self._assert_correspondencias(anon, 'RA' , '585291', '', 'perdido', 'Natan Lima Viana', ['Natan'], ['natanvianat16@gmail.com'])
+        '''
+        r = anon.post('/api/envia_email', {'destinatario': 'natanvianat16@gmail.com', 'texto':'Olá, Mariana achou o RG '
                                                                                                 'que você registrou. '
                                                                                                 'Envie um email para '
-                                                                                                'marianainaradacosta@gmail.com'
-                                                                                                ' para combinar os detablhes'
-                                                                                                ' da devolução'})
-        self.assertEqual(200, r5.status_code)
+                                                                                               'marianainaradacosta@gmail.com'
+                                                                                                ' para combinar os detablhes'                                                                                        ' da devolução'})
+        self.assertEqual(200, r.status_code)
+        '''
+
+    def test_consulta_exclusao(self):
+        natan = Client()
+        natan.force_login(User.objects.get(username='Natan'))
+
+        self._regristra(natan, 'Natan', 'natanvianat16@gmail.com', 'RA', '585291', '', 'Natan Lima Viana', 'perdido')
+        self._regristra(natan, 'Natan', 'natanvianat16@gmail.com', 'Outro', '2222A', 'Clube Karate', 'João Silva', 'achado')
+        self._regristra(natan, 'Natan', 'natanvianat16@gmail.com', 'RG', '1234', '', 'Natan Lima Viana', 'perdido')
+
+        registros = self._assert_registros(natan, ['RA' , 'Clube Karate' , 'RG'] , ['585291','2222A','1234'])
+        id_registro = [r['id'] for r in registros if r['tipo_doc']=='RA']
+        self._exclui(natan, id_registro) #só a exclusão não funcionou, e isso e maravilhoso
+        self._assert_registros(natan, ['Clube Karate', 'RG'], ['2222A', '1234'])
+
+    def _regristra(self ,client , nome , email , tipo , numero , outro , nome_prop , tipo_reg):
+        r = client.post('/api/adiciona_registro', {'solicitante_nome': nome, 'solicitante_email': email,
+                                                    'doc_tipo': tipo, 'doc_numero': numero, 'doc_outro': outro,
+                                                    'doc_nome': nome_prop, 'tipo_reg': tipo_reg})
+        self.assertEqual(200, r.status_code)
+
+    def _assert_correspondencias(self ,client,  tipo , numero, outro , tipo_reg , nome_prop , nomes_esperados ,
+                                 emails_esperados):
+        r = client.get('/api/lista_correspondencias', {'doc_tipo': tipo, 'doc_numero': numero, 'doc_outro': outro,
+                                                        'tipo_reg': tipo_reg, 'doc_nome': nome_prop})
+        self.assertEqual(200, r.status_code)
+        correspondencias = json.loads(r.content.decode('utf-8'))
+        nomes = [c['nome'] for c in correspondencias]
+        emails = [c['email'] for c in correspondencias]
+        self.assertEqual(nomes, nomes_esperados)
+        self.assertEqual(emails, emails_esperados)
+
+    def _assert_registros(self, client, tipos_esperados , numeros_esperados):
+        r = client.get('/api/consulta_registros')
+        self.assertEqual(200, r.status_code)
+        registros = json.loads(r.content.decode('utf-8'))
+        tipos = [r['tipo_doc'] for r in registros]
+        numeros = [r['numero_doc'] for r in registros]
+        self.assertEqual(tipos, tipos_esperados)
+        self.assertEqual(numeros, numeros_esperados)
+        return registros
+
+    def _exclui(self , client , id_registro):
+        r = client.post('/api/exclui_registro', {'id': id_registro})
+        self.assertEqual(200, r.status_code)
 
     def test_autenticacao_google(self):
-        client = Client()
-        # pessoa perde um documento
-        # force login?
-        r1 = client.post('/api/adiciona_registro', {'solicitante_nome': 'Natan', 'solicitante_email': 'natan@gmail.com',
-                                                    'doc_tipo': 'RG', 'doc_numero': '1234', 'doc_outro': '',
-                                                    'doc_nome': 'Natan Lima Viana', 'tipo_reg': 'perdido'})
-
-        self.assertEqual(200, r1.status_code)
-        r2 = client.get('/api/lista_correspondencias', {'doc_tipo': 'RG', 'doc_numero': '1234', 'doc_outro': '',
-                                                        'tipo_reg': 'achado', 'doc_nome': 'Natan Lima Viana'})
-        self.assertEqual(200, r2.status_code)
-
-
-    def _regristra(self):
         pass
 
-    def _assert_correspondencias(self):
-        pass
+
+
+
 
     def _assert_consulta(self):
         pass
