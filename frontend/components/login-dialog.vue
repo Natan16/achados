@@ -1,7 +1,6 @@
 <template>
   <v-dialog v-model="visible" max-width="500px">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="649795675193-qiheujqkem1i9k0r7boqr0o0c9n5rk83.apps.googleusercontent.com" >
+   
     
 
     <v-card>
@@ -19,7 +18,7 @@
           <v-card-text>
             <p>Faça login usando um dos serviços abaixo</p>
             <v-layout row wrap>
-              <v-flex xs12><div class="g-signin2" data-onsuccess="onSignIn"></div></v-flex>
+              <v-flex xs12><div id="google-signin-button"></div></v-flex>
             <!--   <v-flex xs12><v-btn block round color="info" href="/login/facebook">Facebook</v-btn></v-flex> -->
             </v-layout>
           </v-card-text>
@@ -39,6 +38,7 @@
 import AppApi from '~apijs'
 
 export default {
+  
   data () {
     console.log('data');
     return {
@@ -54,6 +54,14 @@ export default {
       error: false,
       img_url: '',
     };
+  },
+
+  mounted() {
+        setTimeout(() => {
+          gapi.signin2.render('google-signin-button', {
+          onsuccess: this.onSignIn
+        })
+      })
   },
   methods: {
     open(){
@@ -81,6 +89,19 @@ export default {
       });
     },
     onSignIn(googleUser){ 
+      // console.log('invoking onSignin...')
+      // const profile = user.getBasicProfile()
+      // console.log('ID: ' + profile.getId()) // Don't send this directly to your server!
+      // console.log('Full Name: ' + profile.getName())
+      // console.log('Given Name: ' + profile.getGivenName())
+      // console.log('Family Name: ' + profile.getFamilyName())
+      // console.log('Image URL: ' + profile.getImageUrl())
+      // console.log('Email: ' + profile.getEmail())
+
+      // // The ID token you need to pass to your backend:
+      // var id_token = user.getAuthResponse().id_token
+      // console.log('ID Token: ' + id_token)
+
       var profile = googleUser.getBasicProfile();
       if(profile){
         this.loading = true;
@@ -101,6 +122,7 @@ export default {
     },
   }
 }
+//window.onSignIn = onSignIn
 
 </script>
 
@@ -109,3 +131,4 @@ export default {
     padding: 35px;
   }
 </style>
+

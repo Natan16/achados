@@ -4,8 +4,10 @@ from django.db.models import Q
 from commons.utils import gravatar_url
 
 def google_login(email,name,picture,given_name,family_name):
-
-    perfil,_ = Profile.objects.get_or_create(email=email)
+    #Profile.objects.filter(email=email).delete()
+    perfil , _ = Profile.objects.get_or_create(email=email)
+    #perfil retornou mais de um objeto. Deveria poder ser só um por email -> vai ter que dar um flush na
+    #database e fazer do email único
 
     if (not perfil.usuario):
         try:
@@ -36,7 +38,6 @@ def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
        perfil.save()
     else:
         perfil = Profile.objects.get(email=solicitande_email)
-    print(perfil)
     perfil,_ = Profile.objects.get_or_create(usuario=None, avatar=gravatar_url(solicitande_email),
                               email=solicitande_email)
     perfil.nome = solicitante_nome

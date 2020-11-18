@@ -15,7 +15,7 @@
     <v-menu v-if="logged_user" offset-y>
       <v-btn icon slot="activator" class="ma-0 ml-5">
         <v-avatar size="36px">
-          <img src="https://graph.facebook.com/4/picture?width=300&height=300">
+          <img :src="logged_user.avatar">
         </v-avatar>
       </v-btn>
       <v-card class="no-padding">
@@ -23,7 +23,7 @@
           <v-list-tile avatar>
             <v-list-tile-avatar>
               <v-avatar>
-                <img src="https://graph.facebook.com/4/picture?width=300&height=300">
+                <img :src="logged_user.avatar">
               </v-avatar>
             </v-list-tile-avatar>
             <v-list-tile-content>
@@ -33,13 +33,14 @@
           </v-list-tile>
         </v-list>
         <v-divider></v-divider>
-        <v-list>
+        <!-- o loggout ainda não foi implementado -->
+        <!-- <v-list>
           <v-list-tile @click="logout()">
             <v-list-tile-content>
               <v-list-tile-title>Sair</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-        </v-list>
+        </v-list> -->
       </v-card>
     </v-menu>
    <!--  <v-toolbar-side-icon @click.stop="state.drawerRight = !state.drawerRight"></v-toolbar-side-icon> -->

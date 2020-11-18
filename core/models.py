@@ -47,7 +47,7 @@ class Profile(models.Model):
             'username': self.nome,
             'first_name': self.usuario.first_name,
             'last_name': self.usuario.last_name,
-            'email': self.numero,
+            'email': self.email,
             'avatar': self.avatar
         }
 
