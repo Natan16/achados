@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <template v-for="reg in registros" >  
+    <template v-for="(reg , index) in registros" >  
       <v-card
           class="mx-auto"
           color="#FFFFFF"
@@ -11,12 +11,24 @@
             
             <p class="display-1 text--primary">
               <v-container >
-                  {{reg.id}}
+                  id: {{reg.id}}
+                  <br>
+                  tipo : {{reg.tipo_doc}}
+                    &nbsp;
+                  numero :&nbsp;{{reg.numero_doc}}
+                  <br>
+                  proprietario:&nbsp;{{reg.nomeProprietario_doc}}
+                  <br>
+                  status : em aberto
+                  <br>
+                  {{reg.tipo_reg}} {{reg.criado_em | timeago}}
+                  {{correspondencias[index].length}}
+
               </v-container>
             </p>
           <!-- a edição, por equando, não vai ser implementada -->
           <div style="padding:20px">
-              <v-btn
+         <!--      <v-btn
             class="mx-2"
             fab
             dark
@@ -26,7 +38,7 @@
               mdi-pencil
             </v-icon>
           </v-btn>
-
+ -->
           <v-btn
               class="mx-2"
               fab
@@ -63,13 +75,20 @@ export default {
     return {}
   },
   computed: {
-    //sortedCorrs() {
-    //  return this.correspondencias.concat().sort((t1, t2) => new Date(t2.criado_em) - new Date(t1.criado_em))
-    //},
+    sortedRegs() {
+      return this.registros.concat().sort((t1, t2) => new Date(t2.criado_em) - new Date(t1.criado_em))
+    },
   }, 
   methods: {
     exclui(id_registro){
       AppApi.exclui_registro(id_registro).then(result => { 
+        //já pode atualizar a tela 
+        var i 
+        for (i = 0; i < this.registros.length ; i++){
+          if (this.registros[i].id === id_registro){
+            this.registros.splice(i , 1)
+          }
+        }
         return {}  
       })
     }

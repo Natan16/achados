@@ -5,12 +5,9 @@ from commons.utils import gravatar_url
 
 def google_login(email,name,picture,given_name,family_name):
     perfil , _ = Profile.objects.get_or_create(email=email)
-    #perfil retornou mais de um objeto. Deveria poder ser só um por email -> vai ter que dar um flush na
-    #database e fazer do email único
-
     if (not perfil.usuario):
         try:
-            perfil.usuario = User.objects.create_user(username=name, email=email,
+            perfil.usuario = User.objects.create_user(username=name, email=email, password="abc12345",
                                            first_name=given_name, last_name=family_name)
 
         except IntegrityError:
@@ -18,7 +15,7 @@ def google_login(email,name,picture,given_name,family_name):
         perfil.avatar = picture
         perfil.nome = given_name
         perfil.save()
-    return perfil.to_dict_json()
+    return perfil
 
 def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
                       doc_numero, doc_outro, doc_nome, tipo_reg):
@@ -36,19 +33,8 @@ def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
     else:
         perfil = Profile.objects.get(email=solicitande_email)
 
-    #perfil,_ = Profile.objects.get_or_create(usuario=None, avatar=gravatar_url(solicitande_email),
-    #                          email=solicitande_email)
     perfil.nome = solicitante_nome
     perfil.save()
-    #nome_parts = solicitante_nome.split()
-    #nome = nome_parts[0]
-    #sobrenome = " ".join(nome_parts[1:len(nome_parts)]) if len(nome_parts) > 1 else ""
-    #Não vai mais criar usuário
-    #try:
-    #    usuario = User.objects.create_user(username=solicitande_email, email=solicitande_email,
-    #                                       first_name=nome, last_name=sobrenome)
-    #except IntegrityError:
-    #    usuario = User.objects.get(username=solicitande_email, email=solicitande_email)
 
     outro = True if doc_tipo == 'Outro' else False
     doc_tipo = doc_outro if outro else doc_tipo
@@ -61,7 +47,6 @@ def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
     return registro.to_dict_json()
 
 
-#só está chegando aqui quando é usuário registrado ... problema é que não tem perfil associado ao registro
 def lista_correspondencias(doc_tipo , doc_numero , doc_outro ,
                                        doc_nome , tipo_reg):
     outro = True if doc_tipo == 'Outro' else False

@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from commons.django_views_utils import ajax_login_required
-
+from core.models import User
 def dapau(request):
     raise Exception('break on purpose')
 
@@ -20,11 +20,15 @@ def google_login(request):
         idinfo = id_token.verify_oauth2_token(token, requests.Request(),
                                               "649795675193-qiheujqkem1i9k0r7boqr0o0c9n5rk83.apps.googleusercontent.com"
                                               )
-
         perfil = achados_svc.google_login(idinfo['email'],idinfo['name'],idinfo['picture'],idinfo['given_name'],
         idinfo['family_name'])
-        #auth.login(request, usuario)
-        return JsonResponse(perfil, safe=False)
+
+        #TODO na verdade pode usar o password hasherizado que a google manda
+        usuario = auth.authenticate(username=perfil.usuario.username, password="abc12345")
+        auth.login(request , usuario)
+        if usuario is None :
+            return JsonResponse({'usuario':'Nenhum'}, safe=False)
+        return JsonResponse(perfil.to_dict_json(), safe=False)
 
     except ValueError:
         return JsonResponse(None, safe=False)
@@ -83,7 +87,7 @@ def lista_correspondencias(request):
 def consulta_registros(request):
     loggeduser = request.user
     registros = achados_svc.consulta_registros(loggeduser)
-    return JsonResponse(registros , safe=False)
+    return JsonResponse(registros, safe=False)
 
 @ajax_login_required
 def exclui_registro(request):

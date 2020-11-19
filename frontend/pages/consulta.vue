@@ -1,5 +1,5 @@
 <template>
- 	<div><!-- <consulta-list :registros=registros :correspondencias=correspondencias > </consulta-list>--></div>
+ 	<div><consulta-list :registros=registros :correspondencias=correspondencias > </consulta-list></div>
 </template>
 
 <script>
@@ -15,30 +15,29 @@ export default {
     	consultaList,
   	},
   	
-  	computed: Object.assign(
-      {},
-      Vuex.mapGetters([
-        'logged_user'
-      ])
-    ),
-
-	/*asyncData(context) { 
-		return AppApi.consulta_registros(context.logged_user).then(result => {
+  	//tá tando unauthorized porque ele fala ajax login required no front
+	asyncData(context) {
+		//console.log(context.store.getters.logged_user)
+		
+		return AppApi.consulta_registros().then(result => {
 	  		var registros = result.data
+	  		console.log(registros)
 			var correspondencias = [] 
 			var registro
 			for(registro in registros ){  	
-		  		correspondencias.push(AppApi.lista_correspondencias(registro).then(result => {
+		  		var corr = AppApi.lista_correspondencias(registro).then(result => {
 		  			return result.data
-		  		}))
+		  		})
+		  		correspondencias.push(corr)
 	  		}
+	  		console.log(correspondencias)
 	  		return {
 	    		registros, 
 	  			correspondencias
 	  		}
 		})
 	},
-*/
+
 
   	data () {
     	return {}
