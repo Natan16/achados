@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <template v-for="(reg , index) in registros" >  
+    <template v-for="(reg , index) in sortedRegs" >  
       <v-card
           class="mx-auto"
           color="#FFFFFF"
