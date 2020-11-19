@@ -28,7 +28,7 @@ def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
         return None
     if (not loggeduser):
 
-       perfil,_ = Profile.objects.get_or_create(usuario=None, avatar="gravatar_url(solicitande_email)",
+        perfil,_ = Profile.objects.get_or_create(usuario=None, avatar="gravatar_url(solicitande_email)",
                               email=solicitande_email)
     else:
         perfil = Profile.objects.get(email=solicitande_email)

@@ -117,12 +117,12 @@ export default {
             this.error = true;
           }
           this.loading = false;
+          //o loggedUser nunca está voltando pra Null
         });
       }
     },
   }
 }
-//window.onSignIn = onSignIn
 
 </script>
 

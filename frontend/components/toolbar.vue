@@ -34,13 +34,13 @@
         </v-list>
         <v-divider></v-divider>
         <!-- o loggout ainda não foi implementado -->
-        <!-- <v-list>
+        <v-list>
           <v-list-tile @click="logout()">
             <v-list-tile-content>
               <v-list-tile-title>Sair</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-        </v-list> -->
+        </v-list>
       </v-card>
     </v-menu>
    <!--  <v-toolbar-side-icon @click.stop="state.drawerRight = !state.drawerRight"></v-toolbar-side-icon> -->
@@ -70,9 +70,14 @@
         evt.stopPropagation();
       },
       logout(){
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+
         AppApi.logout().then(()=>{
           this.$store.commit('SET_LOGGED_USER', null);
-          Snacks.show(this.$store, {text: 'Até logo!'})
+          //Snacks.show(this.$store, {text: 'Até logo!'})
         });
       }
     }
