@@ -203,7 +203,7 @@
           nome : this.nome , 
           email : this.email,
         }
-
+        
         const documento = {
            tipo : this.select , 
            numero : this.numero ,
