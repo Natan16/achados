@@ -4,6 +4,7 @@ from django.db.models import Q
 from commons.utils import gravatar_url
 
 def google_login(email,name,picture,given_name,family_name):
+    #Profile.objects.all().delete()
     perfil , _ = Profile.objects.get_or_create(email=email) #as vezes está retornando mais do que 1 perfil, por que?
     if (not perfil.usuario):
         try:
@@ -20,16 +21,21 @@ def google_login(email,name,picture,given_name,family_name):
 def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
                       doc_numero, doc_outro, doc_nome, tipo_reg):
     try :
-       usuario = User.objects.get(email=solicitande_email)
+        usuario = User.objects.get(email=solicitande_email)
     except:
         usuario = None
 
     if (usuario and not loggeduser) or (loggeduser and loggeduser.email != solicitande_email):
         return None
     if (not loggeduser):
-        avatar = gravatar_url(solicitande_email)
-        perfil,_ = Profile.objects.get_or_create(usuario=None, avatar=avatar,
-                              email=solicitande_email)
+        perfil,criado = Profile.objects.get_or_create(email=solicitande_email)
+        if perfil.usuario:
+            return None #usuário não logado não adicionar registro como usuário logado
+        elif criado:
+            avatar = gravatar_url(solicitande_email)
+            perfil.avatar = avatar
+            perfil.save()
+
     else:
         perfil = Profile.objects.get(email=solicitande_email)
 
@@ -42,7 +48,7 @@ def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
     documento , _ = Documento.objects.get_or_create(tipo=doc_tipo, outro=outro, numero=doc_numero,
                                          nomeProprietario=doc_nome)
 
-    registro = Registro.objects.create(profile=perfil ,documento=documento, tipoRegistro=tipo_reg)
+    registro = Registro.objects.create(profile=perfil, documento=documento, tipoRegistro=tipo_reg)
 
     return registro.to_dict_json()
 
