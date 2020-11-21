@@ -47,11 +47,11 @@ const api = {
         const d = new Date()
         return mockasync(
             [
-                {nome_solicitante: 'Natan Viana' , email_solicitante:'natanvianat16@gmail.com' ,
-                avatar_solicitante:'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
+                {nome: 'Natan Viana' , email:'natanvianat16@gmail.com' ,
+                avatar:'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
                 criado_em:d.toISOString() , tipo_reg:"achado"},
-                {nome_solicitante: 'Mariana Inara' , email_solicitante:'marianainaradacosta@gmail.com' ,
-                avatar_solicitante:'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
+                {nome: 'Mariana Inara' , email:'marianainaradacosta@gmail.com' ,
+                avatar:'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
                 criado_em:d.toISOString(), tipo_reg:"achado"}
             ]
         );

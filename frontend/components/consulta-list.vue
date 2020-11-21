@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <template v-for="(reg , index) in sortedRegs" >  
+    <template v-for="reg in sortedRegs" >  
       <v-card
           class="mx-auto"
           color="#FFFFFF"
@@ -22,7 +22,26 @@
                   status : em aberto
                   <br>
                   {{reg.tipo_reg}} {{reg.criado_em | timeago}}
-                  {{correspondencias[index].length}}
+                  <br>
+                  <!-- {{reg}}  -->
+                  <template v-if="reg.correspondencias.length > 0">
+                    ---------------------------------------------------------------------------------
+                    <br>
+                    {{reg.correspondencias.length}} correspondencia(s) encontrada(s):
+                    <br>
+                    <v-divider></v-divider>
+                    <div v-for="corr in reg.correspondencias" :key="corr.criado_em">
+                      {{corr.nome}} ({{corr.criado_em | timeago}})
+                      <br>
+                      Entre em contato através do e-mail <b>{{corr.email}}</b> para combinar os detalhes da devolução.
+                      <br>
+                      ~~~~~~~~~~~~~~~~~~~~~~
+                    </div>
+
+                  </template>
+                  <template v-else>
+                    Por enquanto, não foram encontradas correspondencias  
+                  </template> 
 
               </v-container>
             </p>
@@ -39,6 +58,8 @@
             </v-icon>
           </v-btn>
  -->
+
+
           <v-btn
               class="mx-2"
               fab
@@ -70,9 +91,37 @@
 import AppApi from '~apijs'
 
 export default {
-  props: ['registros' , 'correspondencias'],
+  props: ['registros'],
   data () {
     return {}
+  },
+  mounted(){
+    //isso aqui não tá funcionando 
+    var i
+    for(i=0; i<this.registros.length ; i++){   
+      var registro = this.registros[i]
+      const tipoRegistro = registro.tipo_reg
+      const tipoRegistroCorr = tipoRegistro === 'achado' ? 'perdido' : 'achado'
+      var documento = {}
+      if (registro.outro_doc){
+        documento.tipo == 'Outro'
+        documento.outro = registro.tipo_doc
+      } else {
+        documento.tipo = registro.tipo_doc
+        documento.outro = ''
+      }
+      documento.numero = registro.numero_doc
+      documento.nomeProp = registro.nomeProprietario_doc    
+      this.altera_correspondencia_registro(i , documento , tipoRegistroCorr)
+    }
+    /*var registros = this.registros
+    var d = new Date()
+    setInterval(function(){registros[0].correspondencias.push({nome: 'Natan Viana' , email:'natanvianat16@gmail.com' ,
+                avatar:'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
+                criado_em:d.toISOString() , tipo_reg:"achado"},
+                {nome: 'Mariana Inara' , email:'marianainaradacosta@gmail.com' ,
+                avatar:'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
+                criado_em:d.toISOString(), tipo_reg:"achado"})}, 1000)*/
   },
   computed: {
     sortedRegs() {
@@ -80,9 +129,14 @@ export default {
     },
   }, 
   methods: {
+    altera_correspondencia_registro(indice , documento , tipoRegistroCorr){
+      AppApi.lista_correspondencias(documento , tipoRegistroCorr).then(result => {
+          this.registros[indice].correspondencias = result.data
+          console.log(this.registros[indice])
+      })
+    },
     exclui(id_registro){
       AppApi.exclui_registro(id_registro).then(result => { 
-        //já pode atualizar a tela 
         var i 
         for (i = 0; i < this.registros.length ; i++){
           if (this.registros[i].id === id_registro){
