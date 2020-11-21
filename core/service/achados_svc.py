@@ -4,7 +4,7 @@ from django.db.models import Q
 from commons.utils import gravatar_url
 
 def google_login(email,name,picture,given_name,family_name):
-    perfil , _ = Profile.objects.get_or_create(email=email)
+    perfil , _ = Profile.objects.get_or_create(email=email) #as vezes está retornando mais do que 1 perfil, por que?
     if (not perfil.usuario):
         try:
             perfil.usuario = User.objects.create_user(username=name, email=email, password="abc12345",
@@ -27,8 +27,8 @@ def adiciona_registro(loggeduser, solicitante_nome, solicitande_email, doc_tipo,
     if (usuario and not loggeduser) or (loggeduser and loggeduser.email != solicitande_email):
         return None
     if (not loggeduser):
-
-        perfil,_ = Profile.objects.get_or_create(usuario=None, avatar="gravatar_url(solicitande_email)",
+        avatar = gravatar_url(solicitande_email)
+        perfil,_ = Profile.objects.get_or_create(usuario=None, avatar=avatar,
                               email=solicitande_email)
     else:
         perfil = Profile.objects.get(email=solicitande_email)

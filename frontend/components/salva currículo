@@ -1,0 +1,48 @@
+Natan Lima Viana 
+Brasileiro, 27 anos 
+Endereço – Av Tívoli, 189 Vida Adyana – São José dos Campos –SP 
+Telefone: (12) 98305-4249  
+E-mail: natanvianat16@gmail.com 
+FORMAÇÃO 
+•  Engenharia de Computação – ITA
+   Conclusão: Dez/2017  Média : 8,1
+EXPERIÊNCIA PROFISSIONAL 
+• Jan/2018 até presente – CENTRO DE COMPUTAÇÃO DA AERONÁUTICA (CCA-SJ)
+Cargo: Adjunto/Chefe da Sessão de Concepção e Análise
+Principais atividades: Desenvolvimento de simuladores de voo e software para simulação.
+
+Cadete Snake - Software (em Python) que simula ações do piloto ( para testes automatizados e ensaios aerodinâmicos). 
+AirCCA - Software embarcado ( versões Arduino E RPi ) para transmitir I/O’s ( potenciômetro, encoder, relê , led , display 7s , botão , chave, motor de passo etc ) para um intermediário ( em Java ) que conversa com a lógica da simulação e provê uma interface de panes.  
+Emb-312/Emb-310 - Lógica da simulação ( em Lua ) em camadas, usando SASL ( para os sistemas da aeronave )  e AirManager API ( para os instrumentos ).   
+Realidade Virtual - Projeto de pesquisa em parceria com o ITA na área de filtragem e identificação para viabilizar integração de óculos de realidade virtual com plataformas de movimento.    
+Impressão 3D, Corte à Laser, Desenho de Circuitos, Scrum Master Interino.
+    
+• Mar/2017 até Out/2017 – Instituto de Aeronáutica e Espaço ( IAE )
+Cargo: Estagiário
+Alternativa mais econômica para algoritmo de controle de rolamento do VLS ( Veículo Lançador de Satélites ).
+• Mar/2015 ( 15 dias ) – Sistema de Ensino Ari de Sá ( SAS )
+Cargo: Estagiário
+Mockup do novo portal de ensino ( Portal SAS ).  
+
+QUALIFICAÇÕES E CURSOS COMPLEMENTARES 
+• Controle de versão com Git/Gitlab (CCA-SJ); 
+• Minicurso Scrum Master (CCA-SJ);
+• Curso de Verão em Computação Gráfica (IMPA); 
+• Inglês Avançado e Francês Intermediário;
+• Medalhista nas Olimpíadas Brasileiras de Matemática e de Física;
+
+PROJETOS PESSOAIS
+• Achados e perdidos online usando o template Djá-vue : https://github.com/Natan16/achados
+• Rede neural usando TensorFlow treinada para jogar cardgame love letter: https://github.com/Natan16/love_letter
+• Aplicativo Android que usa OCR para facilitar rateio de contas: https://github.com/Natan16/appConta
+• Comedouro para pets automatizado : https://github.com/Natan16/CatFeeder4Clara
+• Boardgame clássico Hive para se jogar em rede: https://github.com/Natan16/HivePocket
+
+TRABALHO VOLUNTÁRIO
+• Jun/2020 até Jul/2020 - Instituto de Fomento à Indústria ( IFI )
+    Levantamento de requisitos e elaboração do plano de ensaios para a certificação do sistema de alarmes de um ventilador mecânico como parte da Operação COVID-19.
+• Fev/2012 até Out/2014 - Casdinho 
+    Coordenador das Olimpíadas -> Membro do Departamento de Marketing -> Diretor de Ensino.
+
+
+
