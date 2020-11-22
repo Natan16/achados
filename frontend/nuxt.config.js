@@ -4,7 +4,7 @@ const _apijs = _apimock ? 'apimock.js' : 'api.js';
 
 module.exports = {
   head: {
-    title: 'frontend',
+    title: 'Achados & Perdidos',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
