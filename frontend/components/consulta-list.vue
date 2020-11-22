@@ -78,12 +78,7 @@
       </template>   
   
   </div>
-  <!-- <div>
-    <template v-for="reg in registros">
-       {{reg.nome}}
-       <v-btn > excluir </v-btn> 
-    </template>
-  </div> -->
+
 </template>
 
 <script>
