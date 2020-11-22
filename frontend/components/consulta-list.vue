@@ -78,7 +78,12 @@
       </template>   
   
   </div>
-
+  <!-- <div>
+    <template v-for="reg in registros">
+       {{reg.nome}}
+       <v-btn > excluir </v-btn> 
+    </template>
+  </div> -->
 </template>
 
 <script>
@@ -91,7 +96,6 @@ export default {
     return {}
   },
   mounted(){
-    //isso aqui não tá funcionando 
     var i
     for(i=0; i<this.registros.length ; i++){   
       var registro = this.registros[i]
