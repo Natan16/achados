@@ -2,9 +2,9 @@
  <div>
    
     <div class="text-xs-center" style="margin:100px;">
-         <v-btn  color="success" style="border-radius:28px; width:200px ;height: 200px" :to="{name: 'tipoRegistro-novo-registro', params:{tipoRegistro: 'achado'} }" >Eu achei um documento</v-btn>
+         <v-btn  color="success" style="border-radius:28px; width:200px ;height: 200px" :to="{name: 'tipoRegistro-novo-registro', params:{tipoRegistro: 'achado'} }" ><strong>achei</strong>&nbsp; um documento</v-btn>
       
-         <v-btn style="border-radius:28px; width:200px ;height: 200px" color="error"   :to="{name: 'tipoRegistro-novo-registro', params:{tipoRegistro:'perdido'}}">Eu perdi um documento</v-btn>   
+         <v-btn style="border-radius:28px; width:200px ;height: 200px" color="error"   :to="{name: 'tipoRegistro-novo-registro', params:{tipoRegistro:'perdido'}}"><strong>perdi</strong>&nbsp; um documento</v-btn>   
     </div>
     
     
