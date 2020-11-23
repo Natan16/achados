@@ -57,7 +57,7 @@
               mdi-pencil
             </v-icon>
           </v-btn>
- -->
+        -->
 
 
           <v-btn
@@ -78,12 +78,7 @@
       </template>   
   
   </div>
-  <!-- <div>
-    <template v-for="reg in registros">
-       {{reg.nome}}
-       <v-btn > excluir </v-btn> 
-    </template>
-  </div> -->
+  
 </template>
 
 <script>
@@ -113,14 +108,6 @@ export default {
       documento.nomeProp = registro.nomeProprietario_doc    
       this.altera_correspondencia_registro(i , documento , tipoRegistroCorr)
     }
-    /*var registros = this.registros
-    var d = new Date()
-    setInterval(function(){registros[0].correspondencias.push({nome: 'Natan Viana' , email:'natanvianat16@gmail.com' ,
-                avatar:'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
-                criado_em:d.toISOString() , tipo_reg:"achado"},
-                {nome: 'Mariana Inara' , email:'marianainaradacosta@gmail.com' ,
-                avatar:'http://1.bp.blogspot.com/-A9_ROvP0efw/TZI9dUsXAKI/AAAAAAAAGCI/rD_-a3ZBF3U/s1600/Isaac_Newton_Biography%255B1%255D.jpg',
-                criado_em:d.toISOString(), tipo_reg:"achado"})}, 1000)*/
   },
   computed: {
     sortedRegs() {
