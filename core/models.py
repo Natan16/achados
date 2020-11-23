@@ -19,23 +19,6 @@ class ActivityLog(models.Model):
             self.created_at,
         )
 
-
-class Perfil(models.Model):
-    usuario = models.ForeignKey(User, null=True, blank=True)
-    avatar = models.URLField()
-    nome = models.TextField()
-    email = models.EmailField()
-
-    def to_dict_json(self):
-        return {
-            'username': self.nome,
-            'first_name': self.usuario.first_name,
-            'last_name': self.usuario.last_name,
-            'email': self.numero,
-            'avatar': self.avatar
-        }
-
-
 class Profile(models.Model):
     usuario = models.ForeignKey(User, null=True, blank=True)
     avatar = models.URLField()
