@@ -5,12 +5,10 @@
       <v-card
           class="mx-auto"
           color="#FFFFFF"
-          dark
           max-width="900"
         >
             
             <p class="display-1 text--primary">
-              <v-container >
                   id: {{reg.id}}
                   <br>
                   tipo : {{reg.tipo_doc}}
@@ -22,55 +20,100 @@
                   status : em aberto
                   <br>
                   {{reg.tipo_reg}} {{reg.criado_em | timeago}}
-                  <br>
-                  <!-- {{reg}}  -->
+            </p> 
+                <v-divider></v-divider>
+                
                   <template v-if="reg.correspondencias.length > 0">
-                    ---------------------------------------------------------------------------------
-                    <br>
-                    {{reg.correspondencias.length}} correspondencia(s) encontrada(s):
-                    <br>
-                    <v-divider></v-divider>
-                    <div v-for="corr in reg.correspondencias" :key="corr.criado_em">
-                      {{corr.nome}} ({{corr.criado_em | timeago}})
-                      <br>
-                      Entre em contato através do e-mail <b>{{corr.email}}</b> para combinar os detalhes da devolução.
-                      <br>
-                      ~~~~~~~~~~~~~~~~~~~~~~
-                    </div>
+                
+                  
+                    <v-list  subheader three-line>
+                      
+                      <v-subheader inset>
+                        {{reg.correspondencias.length}} correspondencia(s) encontrada(s):
+                      </v-subheader>
+                      <template v-for="corr in reg.correspondencias" >
+                        <v-list-item  
+                          :key="corr.nome" >
+                          
+                          <v-avatar class="ma-0 ml-4" >
+                            <v-img :src="corr.avatar"></v-img>
+                          </v-avatar>
+                          {{corr.nome}} ({{corr.criado_em | timeago}})
+              
+                          <br>
+                          <p>Entre em contato através do e-mail <b>{{corr.email}}</b> para combinar os detalhes da devolução.</p>
+                        </v-list-item>
 
+                      </template>
+                    </v-list>
                   </template>
                   <template v-else>
+                    <p>
                     Por enquanto, não foram encontradas correspondencias  
+                    </p>
                   </template> 
 
-              </v-container>
-            </p>
+        
           <!-- a edição, por equando, não vai ser implementada -->
           <div style="padding:20px">
-         <!--      <v-btn
-            class="mx-2"
-            fab
-            dark
-            color="cyan"
-          >
-            <v-icon dark>
-              mdi-pencil
-            </v-icon>
-          </v-btn>
-        -->
-
-
-          <v-btn
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+            <v-btn
               class="mx-2"
               fab
               dark
+              v-bind="attrs"
+              v-on="on"
+              color="success"
+            >
+              <v-icon dark>
+                mdi-check
+              </v-icon>
+            </v-btn>
+            </template>
+            <span>Marcar como resolvido</span>
+          </v-tooltip>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="mx-2"
+              fab
+              dark
+              v-bind="attrs"
+              v-on="on"
+              color="yellow"
+            >
+              <v-icon dark>
+                mdi-alert
+              </v-icon>
+            </v-btn>
+            </template>
+            <span>Marcar como em aberto</span>
+          </v-tooltip>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="mx-2"
+              fab
+              dark
+              v-bind="attrs"
+              v-on="on"
               color="red"
               @click="exclui(reg.id)"
             >
               <v-icon dark>
                 mdi-delete
               </v-icon>
-          </v-btn>
+            </v-btn>
+            </template>
+            <span>Excluir registro</span>
+          </v-tooltip>
+
+          
+
+        
           </div>
           
         </v-card>

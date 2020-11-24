@@ -1,8 +1,9 @@
 <template>
-  <!-- um dropdown para consulta de registros, caso usuário esteja logado -->
   <v-toolbar color="#1565C0" dark fixed app clipped-right>
     <!-- <v-toolbar-side-icon @click.stop="state.drawer = !state.drawer"></v-toolbar-side-icon> -->
-    <v-btn :to="{ name: 'index'}" flat dark ripple class="ma-0 ml-5"   >Achados & Perdidos</v-btn><v-spacer></v-spacer>
+    <v-btn :to="{ name: 'index'}" x-large flat dark ripple class="ma-0 ml-5" >
+      <img src="home_icon.png" style="height: 40px; width: 80px;" />
+    </v-btn><v-spacer></v-spacer>
     <v-btn v-if="logged_user" :to="{ name :'consulta'}" flat dark ripple class="ma-0 ml-5" > <!-- se o usuário não está logado vai abrir o form de login , se ele está, vai abrir a lista de registros-->
       Consultar Registros
     </v-btn>
