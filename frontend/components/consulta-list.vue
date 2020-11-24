@@ -162,8 +162,14 @@ export default {
   methods: {
     altera_correspondencia_registro(indice , documento , tipoRegistroCorr){
       AppApi.lista_correspondencias(documento , tipoRegistroCorr).then(result => {
-          this.registros[indice].correspondencias = result.data
-          console.log(this.registros[indice])
+          //apenas os que estão em aberto
+          for (var i in result.data){
+            if(result.data[i].status == 0){
+              this.registros[indice].correspondencias.push(result.data[i])    
+            }
+          } 
+          //this.registros[indice].correspondencias = result.data
+          //console.log(this.registros[indice])
       })
     },
     exclui(id_registro){
