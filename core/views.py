@@ -94,6 +94,12 @@ def exclui_registro(request):
     achados_svc.exclui_registro(request.POST.get('id'))
     return JsonResponse({})
 
+@ajax_login_required
+def toggle_status(request):
+    achados_svc.toggle_status(request.POST.get('id'))
+    return JsonResponse({})
+
+
 #seria post, pois executa uma ação ou get, pois não altera o banco de dados?
 def envia_email(request):
     result = send_mail(

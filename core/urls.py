@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^api/envia_email$', views.envia_email),
     url(r'^api/exclui_registro$', views.exclui_registro),
     url(r'^api/consulta_registros$', views.consulta_registros),
+    url(r'^api/toggle_status$', views.toggle_status),
 
 ]

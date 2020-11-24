@@ -114,9 +114,9 @@ const api = {
         return mockasync({})
     },
     
-    /*toggle_status(){
-
-    }*/ 
+    toggle_status(id){
+        return mockasync({})
+    }
 
   
 };

@@ -51,7 +51,11 @@ const api = {
 
     exclui_registro(id){
         return post('/api/exclui_registro',{id:id})
-    }
+    },
+
+    toggle_status(id){
+        return post('/api/toggle_status',{id:id})
+    },
   /*  social_login(provider){
         var url = {
             'google': '/login/google-oauth2',

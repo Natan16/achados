@@ -1,9 +1,9 @@
 
 <template>
 <div>
-
+    <!-- só lista os não marcados como resolvido -->
     <template v-for="corr in sortedCorrs">
-      <v-card
+      <v-card v-if="corr.status==0"
         style="margin-top:20px"
         class="mx-auto"
         color="#2196F3"
@@ -22,7 +22,7 @@
         
         </div>
       </v-card>
-      <v-card
+      <v-card v-if="corr.status==0"
         class="mx-auto"
         color="#90CAF9"
         dark

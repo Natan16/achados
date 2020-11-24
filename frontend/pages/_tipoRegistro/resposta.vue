@@ -50,13 +50,13 @@ export default {
   },
 
   mounted() {
-    const tipo_reg_texto =  this.tipoRegistro === 'achado' ? 'achou' : 'perdeu';
+    /*const tipo_reg_texto =  this.tipoRegistro === 'achado' ? 'achou' : 'perdeu';
     let corr;
     for (corr in this.correspondencias){
       AppApi.envia_email(corr.email_solicitante , `Olá, ${this.solicitante.nome} ${this.tipo_reg_texto} o
       ${this.documento.tipo} que você registrou. Envie um email para ${this.solicitante.email}
       para combinar os detablhes da devolução`); //delega para o backend o envio dos emails
-    }
+    }*/
   },
 
   data () {

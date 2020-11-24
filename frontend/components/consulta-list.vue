@@ -17,7 +17,7 @@
                   <br>
                   proprietario:&nbsp;{{reg.nomeProprietario_doc}}
                   <br>
-                  status : em aberto
+                  status : {{getStatus(reg.status)}}
                   <br>
                   {{reg.tipo_reg}} {{reg.criado_em | timeago}}
             </p> 
@@ -56,7 +56,7 @@
         
           <!-- a edição, por equando, não vai ser implementada -->
           <div style="padding:20px">
-          <v-tooltip bottom>
+          <v-tooltip bottom v-if="reg.status==0">
             <template v-slot:activator="{ on, attrs }">
             <v-btn
               class="mx-2"
@@ -65,6 +65,7 @@
               v-bind="attrs"
               v-on="on"
               color="success"
+              @click="toggle(reg.id)"
             >
               <v-icon dark>
                 mdi-check
@@ -74,7 +75,7 @@
             <span>Marcar como resolvido</span>
           </v-tooltip>
 
-          <v-tooltip bottom>
+          <v-tooltip bottom v-if="reg.status==1">
             <template v-slot:activator="{ on, attrs }">
             <v-btn
               class="mx-2"
@@ -83,6 +84,7 @@
               v-bind="attrs"
               v-on="on"
               color="yellow"
+              @click="toggle(reg.id)"
             >
               <v-icon dark>
                 mdi-alert
@@ -174,6 +176,20 @@ export default {
         }
         return {}  
       })
+    },
+    toggle(id_registro){
+      AppApi.toggle_status(id_registro).then(result => { 
+        var i 
+        for (i = 0; i < this.registros.length ; i++){
+          if (this.registros[i].id === id_registro){
+            this.registros[i].status = this.registros[i].status == 0 ? 1 : 0  
+          }
+        }
+        return {}  
+      })
+    },
+    getStatus(status_num){
+      return status_num == 0 ? 'em aberto' : 'resolvido'
     }
   },
 

@@ -71,3 +71,8 @@ def consulta_registros(loggedUser):
 
 def exclui_registro(id):
     Registro.objects.filter(id=id).delete()
+
+def toggle_status(id):
+    registro = Registro.objects.get(id=id)
+    registro.status = 0 if registro.status == 1 else 1
+    registro.save()
