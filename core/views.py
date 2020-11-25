@@ -58,6 +58,7 @@ def logout(request):
     return HttpResponse('{}', content_type='application/json')
 
 
+
 def whoami(request):
     i_am = {
         'user': _user2dict(request.user),
